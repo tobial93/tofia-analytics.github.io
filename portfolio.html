@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - tofia analytics</title>
+  <meta name="description" content="Projects that turned data into decisions. Power BI dashboards, data platforms, websites, and SEO.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav__brand"><img src="img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="templates.html">Templates</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">Portfolio</span>
+        <h2>Projects that turned data into decisions</h2>
+        <p>A selection of dashboards, platforms, and websites delivered for real clients.</p>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="bi">BI Dashboards</button>
+        <button class="filter-btn" data-filter="data">Data Platforms</button>
+        <button class="filter-btn" data-filter="web">Web Development</button>
+        <button class="filter-btn" data-filter="seo">SEO</button>
+        <button class="filter-btn" data-filter="app">App Development</button>
+      </div>
+
+      <!-- Project grid -->
+      <div class="projects">
+
+        <!-- Project 1: Ecommerce Dashboard -->
+        <div class="project-card" data-category="bi">
+          <div class="project-card__img project-card__img--placeholder">Screenshot: Ecommerce Sales Dashboard</div>
+          <div class="project-card__body">
+            <div class="project-card__tags">
+              <span class="tag tag--bi">Power BI</span>
+              <span class="tag tag--bi">DAX</span>
+              <span class="tag tag--data">Star Schema</span>
+            </div>
+            <h3>Ecommerce Sales Dashboard</h3>
+            <p>3-page interactive dashboard with 27 DAX measures, conditional formatting, dynamic titles, and row-level security. Built as a sellable template.</p>
+            <div class="project-card__links">
+              <a href="case-studies/ecommerce-dashboard.html">Case Study &rarr;</a>
+              <a href="templates.html">Get Template &rarr;</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder projects — replace with real work -->
+        <div class="project-card" data-category="web">
+          <div class="project-card__img project-card__img--placeholder">Screenshot: Client Website</div>
+          <div class="project-card__body">
+            <div class="project-card__tags">
+              <span class="tag tag--web">Next.js</span>
+              <span class="tag tag--seo">SEO</span>
+            </div>
+            <h3>Local Business Website</h3>
+            <p>Responsive website with local SEO, Google Business integration, and a contact form that converts.</p>
+            <div class="project-card__links">
+              <a href="#">Coming soon</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="data">
+          <div class="project-card__img project-card__img--placeholder">Screenshot: Data Pipeline</div>
+          <div class="project-card__body">
+            <div class="project-card__tags">
+              <span class="tag tag--data">dbt</span>
+              <span class="tag tag--data">BigQuery</span>
+            </div>
+            <h3>Data Platform Build</h3>
+            <p>End-to-end data pipeline: ingestion, transformation with dbt, warehouse in BigQuery, feeding Power BI reports.</p>
+            <div class="project-card__links">
+              <a href="#">Coming soon</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-category="bi">
+          <div class="project-card__img project-card__img--placeholder">Screenshot: Finance Dashboard</div>
+          <div class="project-card__body">
+            <div class="project-card__tags">
+              <span class="tag tag--bi">Power BI</span>
+              <span class="tag tag--bi">Finance</span>
+            </div>
+            <h3>Finance Performance Dashboard</h3>
+            <p>P&L, cash flow, and budget variance tracking with drill-through to transaction-level detail.</p>
+            <div class="project-card__links">
+              <a href="#">Coming soon</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.project-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

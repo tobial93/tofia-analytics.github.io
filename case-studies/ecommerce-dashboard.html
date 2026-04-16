@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecommerce Sales Dashboard - tofia analytics</title>
+  <meta name="description" content="Case study: building a production-ready Power BI ecommerce dashboard with 27 DAX measures, star schema, and row-level security.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="case-study">
+
+        <a href="../portfolio.html" style="font-size: 0.9rem;">&larr; Back to Portfolio</a>
+
+        <h1 style="margin-top: 24px;">Ecommerce Sales Dashboard</h1>
+
+        <div class="case-study__meta">
+          <span>Power BI</span>
+          <span>DAX</span>
+          <span>Star Schema</span>
+          <span>RLS</span>
+        </div>
+
+        <!-- Replace with actual screenshot -->
+        <div class="project-card__img project-card__img--placeholder" style="height: 400px; border-radius: 8px; border: 1px solid #E5E7EB;">Full dashboard screenshot</div>
+
+        <h2>The Challenge</h2>
+        <p>Ecommerce businesses track revenue across channels, products, and customer segments — but most teams rely on spreadsheets or basic analytics tools that don't give a unified view. They need a dashboard that answers: how are we performing this month vs last? Which customers drive the most revenue? Where should we focus?</p>
+
+        <h2>The Solution</h2>
+        <p>A 3-page interactive Power BI report built on a proper star schema, with 27 production-ready DAX measures covering every standard KPI pattern.</p>
+
+        <h2>Report Pages</h2>
+        <ul>
+          <li><strong>Executive Summary</strong> — year-level KPIs (revenue, orders, customers, margin), revenue trend with prior year comparison, channel and category breakdown</li>
+          <li><strong>Sales Performance</strong> — MoM and YoY growth with conditional formatting (green/red), monthly revenue trend vs prior year, top 10 customers, product performance matrix</li>
+          <li><strong>Explorer</strong> — free-form analysis with 5 slicers, rolling 12-month trend, order detail table, YTD KPIs</li>
+        </ul>
+
+        <!-- Replace with actual screenshot -->
+        <div class="project-card__img project-card__img--placeholder" style="height: 300px; border-radius: 8px; border: 1px solid #E5E7EB;">Sales Performance page screenshot</div>
+
+        <h2>Data Model</h2>
+        <ul>
+          <li><strong>Star schema</strong> — fct_sales surrounded by dim_customer, dim_product, dim_date</li>
+          <li><strong>Date table</strong> — properly marked, spanning 2022-2026 with all date attributes</li>
+          <li><strong>Relationships</strong> — many-to-one, single direction, all active</li>
+          <li><strong>Measure table</strong> — all 27 measures organized in a dedicated Sales Measures table</li>
+        </ul>
+
+        <h2>DAX Measures</h2>
+        <p>27 measures covering:</p>
+        <ul>
+          <li>Base metrics: Total Revenue, Orders, Customers, COGS, Gross Profit, Margin%, AOV</li>
+          <li>Time intelligence: YTD, Prior Month, Prior Year, MoM%, YoY%, YoY Variance</li>
+          <li>Rolling periods: Rolling 12M, Rolling 3M</li>
+          <li>Ranking: Customer Rank, Product Rank, Revenue Cumulative % (Pareto)</li>
+          <li>UX: Dynamic page titles, conditional colour measures, Last Refreshed timestamp</li>
+        </ul>
+
+        <h2>Features</h2>
+        <ul>
+          <li>Left navigation pane on every page</li>
+          <li>Synced slicers across all pages</li>
+          <li>Conditional formatting on MoM/YoY KPI cards</li>
+          <li>Custom tooltip pages (hover for customer/product detail)</li>
+          <li>Reset Filters button</li>
+          <li>Row-level security (sample "Region - North" role)</li>
+          <li>Branded cover page with navigation button</li>
+          <li>DIN font throughout</li>
+        </ul>
+
+        <h2>Deliverables</h2>
+        <ul>
+          <li>.pbip project (PBIR + TMDL format, version-controllable)</li>
+          <li>Sample CSV data (3,600+ rows)</li>
+          <li>Setup guide with column mapping and troubleshooting</li>
+          <li>Data dictionary documenting every measure</li>
+        </ul>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href="../templates.html" class="btn btn--primary">Get This Template</a>
+          <a href="../contact.html" class="btn btn--outline" style="color: var(--primary); border-color: var(--primary); margin-left: 12px;">Request Customization</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

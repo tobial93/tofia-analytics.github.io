@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 60" fill="none">
+  <!-- Concept: Ascending bar nodes connected by lines, forming a "t" crossbar + stem -->
+
+  <!-- Vertical stem (3 connected nodes) -->
+  <circle cx="22" cy="8" r="3.5" fill="#2563EB"/>
+  <line x1="22" y1="11.5" x2="22" y2="20" stroke="#1E293B" stroke-width="1.5"/>
+  <circle cx="22" cy="30" r="4.5" fill="#1E293B"/>
+  <line x1="22" y1="34.5" x2="22" y2="44" stroke="#1E293B" stroke-width="1.5"/>
+  <circle cx="22" cy="48" r="3.5" fill="#2563EB"/>
+
+  <!-- Horizontal crossbar: ascending bar-nodes connected -->
+  <!-- Left bar node -->
+  <rect x="2" y="34" width="7" height="14" rx="2" fill="#2563EB" opacity="0.5"/>
+  <line x1="9" y1="38" x2="17.5" y2="32" stroke="#2563EB" stroke-width="1.2"/>
+
+  <!-- Right bar nodes (ascending) -->
+  <line x1="26.5" y1="28" x2="32" y2="26" stroke="#2563EB" stroke-width="1.2"/>
+  <rect x="32" y="24" width="7" height="24" rx="2" fill="#2563EB" opacity="0.7"/>
+
+  <line x1="39" y1="26" x2="44" y2="20" stroke="#2563EB" stroke-width="1.2"/>
+  <rect x="44" y="16" width="7" height="32" rx="2" fill="#2563EB" opacity="0.9"/>
+
+  <!-- Peak data point -->
+  <circle cx="47.5" cy="13" r="3" fill="#16A34A"/>
+
+  <!-- Wordmark -->
+  <text x="62" y="38" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="700" fill="#1E293B">tofia</text>
+  <text x="152" y="38" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="300" fill="#6B7280">analytics</text>
+</svg>

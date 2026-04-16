@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - tofia analytics</title>
+  <meta name="description" content="Get in touch for BI dashboards, data platforms, websites, or SEO. Free initial consultation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav__brand"><img src="img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="templates.html">Templates</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">Contact</span>
+        <h2>Let's talk about your data</h2>
+        <p>Free initial consultation. No jargon, no commitment - just a conversation about what you need.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Email</h3>
+          <p><a href="mailto:tobias.lewen@unitb.de">tobias.lewen@unitb.de</a></p>
+
+          <h3>Based in</h3>
+          <p>Germany</p>
+
+          <h3>Availability</h3>
+          <p>Currently accepting new projects. Typical response time: within 24 hours.</p>
+
+          <h3>Connect</h3>
+          <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/" target="_blank">GitHub</a>
+        </div>
+
+        <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Your email" required>
+          <select name="service">
+            <option value="" disabled selected>What do you need?</option>
+            <option value="bi">BI Dashboard</option>
+            <option value="data">Data Platform</option>
+            <option value="web">Website</option>
+            <option value="seo">SEO Optimization</option>
+            <option value="app">App Development</option>
+            <option value="template">Template Purchase Support</option>
+            <option value="other">Something else</option>
+          </select>
+          <textarea name="message" placeholder="Tell me about your project..." required></textarea>
+          <button type="submit" class="btn btn--primary" style="width: 100%;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://linkedin.com/in/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
