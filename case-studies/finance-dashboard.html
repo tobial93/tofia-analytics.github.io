@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Performance Dashboard - tofia analytics</title>
+  <meta name="description" content="Case study: P&L overview, budget vs actual variance, and departmental spend analysis in Power BI with 26 DAX measures.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="case-study">
+
+        <a href="../portfolio.html" style="font-size: 0.9rem;">&larr; Back to Portfolio</a>
+
+        <h1 style="margin-top: 24px;">Finance Performance Dashboard</h1>
+
+        <div class="case-study__meta">
+          <span>Power BI</span>
+          <span>DAX</span>
+          <span>P&L</span>
+          <span>Budget vs Actual</span>
+          <span>RLS</span>
+        </div>
+
+        <img src="../img/finance_p_and_l_performance.png" alt="P&L Overview" style="border-radius: 8px; border: 1px solid #E5E7EB;">
+
+        <h2>The Challenge</h2>
+        <p>Finance teams spend hours in spreadsheets comparing actuals to budget, building P&L summaries, and tracking departmental spend. They need a single source of truth that shows where the business stands financially - updated automatically, accessible to leadership, and drillable to the account level.</p>
+
+        <h2>The Solution</h2>
+        <p>A 3-page interactive Power BI report built on a star schema with chart of accounts, departments, and a proper date table. 26 DAX measures covering the full P&L waterfall, budget variance analysis, and year-over-year comparisons.</p>
+
+        <h2>Report Pages</h2>
+        <ul>
+          <li><strong>P&L Overview</strong> - Revenue, Gross Profit, Margin%, and EBITDA KPIs. Monthly revenue trend vs prior year. OpEx breakdown by department. Full P&L matrix with actual, budget, variance $, and variance %.</li>
+          <li><strong>Budget vs Actual</strong> - Variance $, Variance %, Budget Attainment%, and YoY% KPIs with conditional formatting (green/red). Monthly actual vs budget clustered bar chart. Variance by account. Department-level detail matrix.</li>
+          <li><strong>Explorer</strong> - Free-form analysis with 5 slicers (Year, Quarter, Month, Department, Category). Revenue/OpEx/EBITDA trend line. Full drill-down matrix with all measures.</li>
+        </ul>
+
+        <img src="../img/finance_budget_vs_actual.png" alt="Budget vs Actual" style="border-radius: 8px; border: 1px solid #E5E7EB;">
+
+        <img src="../img/finance_explorer.png" alt="Explorer Page" style="border-radius: 8px; border: 1px solid #E5E7EB;">
+
+        <h2>Data Model</h2>
+        <ul>
+          <li><strong>Star schema</strong> - fct_financials (monthly actuals + budget per account per department) surrounded by dim_account, dim_department, dim_date</li>
+          <li><strong>Chart of accounts</strong> - 14 accounts across Revenue, COGS, Operating Expenses, and Other categories with sign conventions</li>
+          <li><strong>Date table</strong> - marked as Date Table, spanning 2022-2026</li>
+          <li><strong>Relationships</strong> - many-to-one, single direction, all active</li>
+        </ul>
+
+        <h2>DAX Measures (26 total)</h2>
+        <ul>
+          <li><strong>P&L:</strong> Total Revenue, Total COGS, Gross Profit, Gross Margin %, Total OpEx, EBITDA, EBITDA Margin %, Net Income, Net Margin %</li>
+          <li><strong>Budget:</strong> Total Budget, Budget Revenue, Budget OpEx, Variance $, Variance %, Revenue Variance $, Revenue Variance %, Budget Attainment %</li>
+          <li><strong>Time intelligence:</strong> Revenue YTD, Revenue Prior Year, Revenue YoY %, OpEx YTD</li>
+          <li><strong>UX:</strong> Variance Colour, Revenue YoY Colour, P&L Page Title, Budget Page Title, Last Refreshed</li>
+        </ul>
+
+        <h2>Features</h2>
+        <ul>
+          <li>Left navigation pane on every page</li>
+          <li>Synced slicers across all pages</li>
+          <li>Conditional formatting on variance and YoY KPI cards (green/red)</li>
+          <li>Custom tooltip pages (hover for account/department detail)</li>
+          <li>Reset Filters button</li>
+          <li>Row-level security by department (sample "Department - Sales" role)</li>
+          <li>Branded cover page with navigation button</li>
+          <li>DIN font throughout</li>
+        </ul>
+
+        <h2>Deliverables</h2>
+        <ul>
+          <li>.pbip project (PBIR + TMDL format, version-controllable)</li>
+          <li>Sample CSV data (1,488 financial rows, 14 accounts, 6 departments)</li>
+          <li>Setup guide with chart of accounts mapping</li>
+        </ul>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href="../templates.html" class="btn btn--primary">Get This Template</a>
+          <a href="../contact.html" class="btn btn--outline" style="color: var(--primary); border-color: var(--primary); margin-left: 12px;">Request Customization</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
