@@ -22,10 +22,10 @@ This is the source for [tofia-analytics.com](https://tofia-analytics.com) — th
 
 ### Templates available
 
-| Template | Measures | Pages | Price |
-|----------|----------|-------|-------|
-| [Ecommerce Sales Dashboard](https://tofia-analytics.com/case-studies/ecommerce-dashboard.html) | 27 DAX | 6 (cover + 3 main + 2 tooltips) | $79 |
-| [Finance Performance Dashboard](https://tofia-analytics.com/case-studies/finance-dashboard.html) | 26 DAX | 6 (cover + 3 main + 2 tooltips) | $79 |
+| Template | Measures | Pages | |
+|----------|----------|-------|-|
+| Ecommerce Sales Dashboard | 27 DAX | 6 (cover + 3 main + 2 tooltips) | [View details](https://tofia-analytics.com/case-studies/ecommerce-dashboard.html) |
+| Finance Performance Dashboard | 26 DAX | 6 (cover + 3 main + 2 tooltips) | [View details](https://tofia-analytics.com/case-studies/finance-dashboard.html) |
 
 ### Tech Stack
 
