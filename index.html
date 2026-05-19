@@ -3,12 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tofia analytics - Data & BI Consulting</title>
-  <meta name="description" content="tofia analytics turns raw data into clear dashboards, optimized websites, and scalable data platforms for small and mid-size businesses.">
+  <title>tofia analytics - Websites & BI Consulting</title>
+  <meta name="description" content="Tobias Lewen helps local businesses get found online and growing companies make sense of their data. Websites, SEO, Power BI dashboards, and data platforms.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── About split ── */
+    .about-split { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; }
+    .about__photo img { width: 100%; max-width: 380px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+    .about__text h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin: 12px 0 20px; }
+    .about__text p { color: var(--text-light); font-size: 1rem; line-height: 1.7; margin-bottom: 16px; }
+    .about__text p strong { color: var(--text); }
+    .about__creds { display: flex; gap: 32px; margin: 28px 0 32px; }
+    .about__cred strong { display: block; font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+    .about__cred span { font-size: 0.8rem; color: var(--text-light); }
+
+    /* ── Service tracks ── */
+    .services-split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
+    .service-track { border: 1px solid var(--border); border-radius: 12px; padding: 36px 32px; background: var(--bg); }
+    .service-track--web { border-top: 4px solid var(--accent); }
+    .service-track--data { border-top: 4px solid var(--primary); }
+    .service-track__eyebrow { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .service-track--web .service-track__eyebrow { color: var(--accent); }
+    .service-track--data .service-track__eyebrow { color: var(--primary); }
+    .service-track h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .service-track > p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px; }
+    .service-track ul { list-style: none; }
+    .service-track li { padding: 8px 0; font-size: 0.9rem; color: var(--text-light); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .service-track li:last-child { border-bottom: none; }
+    .service-track li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .service-track--web li::before { background: var(--accent); }
+    .service-track--data li::before { background: var(--primary); }
+
+    @media (max-width: 768px) {
+      .about-split { grid-template-columns: 1fr; }
+      .about__photo { text-align: center; }
+      .about__photo img { max-width: 260px; margin: 0 auto; }
+      .services-split { grid-template-columns: 1fr; }
+      .about__creds { gap: 20px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -27,131 +63,80 @@
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
-    <div class="container hero__split">
-      <div class="hero__text">
-        <p class="hero__label">Data & BI Consultant</p>
-        <h1>Hi, I'm Tobias.<br>I turn messy data into<br><span>dashboards that drive decisions.</span></h1>
-        <p class="hero__sub">Power BI, data platforms, websites, and SEO for businesses that want clarity - not complexity. Based in Germany, working with clients across Europe.</p>
-        <div class="hero__cta">
-          <a href="contact.html" class="btn btn--primary">Book a Free Call</a>
-          <a href="portfolio.html" class="btn btn--outline">View My Work</a>
-        </div>
-        <p class="hero__reassure">Free 15-minute call. No pitch - just an honest conversation about your data.</p>
+  <section class="hero" style="padding: 100px 0 80px;">
+    <div class="container" style="text-align: center; max-width: 760px;">
+      <p class="hero__label">Data &amp; Web Consulting &middot; Berlin</p>
+      <h1 style="font-size: 3rem;">Websites that get you found.<br><span>Data that tells you what's working.</span></h1>
+      <p class="hero__sub" style="margin: 0 auto 32px; max-width: 560px;">tofia analytics delivers digital solutions for local businesses and growing companies. Websites that convert, dashboards that drive real decisions.</p>
+      <div class="hero__cta" style="justify-content: center;">
+        <a href="contact.html" class="btn btn--primary">Book a Free Call</a>
+        <a href="portfolio.html" class="btn btn--outline">See Our Work</a>
       </div>
-      <div class="hero__photo">
-        <!-- Replace with your headshot: <img src="img/tobias.jpg" alt="Tobias Lewen"> -->
-        <img src="img/tobias.jpg" alt="Tobias Lewen">
-      </div>
+      <p class="hero__reassure">Free 15-minute call. No pitch, just an honest conversation about what you need.</p>
     </div>
   </section>
 
-  <!-- Services -->
+  <!-- Services: two tracks -->
   <section class="section">
     <div class="container">
       <div class="section__header">
         <span class="section__label">Services</span>
-        <h2>What I deliver</h2>
-        <p>End-to-end solutions from data source to dashboard to decision.</p>
+        <h2>Two kinds of problems. One person who solves both.</h2>
+        <p>Whether you need to show up online or understand what your numbers are saying, there's a service for that.</p>
       </div>
-      <div class="services">
-        <div class="service-card">
-          <div class="service-card__icon">&#128202;</div>
-          <h3>BI Dashboards</h3>
-          <p>Power BI reports with clean data models, proper DAX, and RLS - ready for production.</p>
+      <div class="services-split">
+
+        <div class="service-track service-track--web">
+          <div class="service-track__eyebrow">For local businesses</div>
+          <h3>Get found. Get customers.</h3>
+          <p>A professional online presence that works while you focus on your business.</p>
+          <ul>
+            <li>Website design & build (fast, mobile-first)</li>
+            <li>Local SEO & Google Business Profile</li>
+            <li>Contact forms & lead capture</li>
+            <li>Ongoing maintenance & updates</li>
+          </ul>
         </div>
-        <div class="service-card">
-          <div class="service-card__icon">&#128450;</div>
-          <h3>Data Platforms</h3>
-          <p>dbt models, pipelines, and warehouse design that scale with your business.</p>
+
+        <div class="service-track service-track--data">
+          <div class="service-track__eyebrow">For growing companies</div>
+          <h3>See what's working. Decide faster.</h3>
+          <p>From raw data to clear dashboards and reliable pipelines your team can trust.</p>
+          <ul>
+            <li>Power BI dashboards & DAX development</li>
+            <li>Data platforms (dbt, BigQuery, SQL)</li>
+            <li>KPI design & reporting automation</li>
+            <li>Data model design & clean-up</li>
+          </ul>
         </div>
-        <div class="service-card">
-          <div class="service-card__icon">&#128736;</div>
-          <h3>Infrastructure</h3>
-          <p>Terraform, GCP, Docker - automated, version-controlled data infrastructure.</p>
-        </div>
-        <div class="service-card">
-          <div class="service-card__icon">&#128209;</div>
-          <h3>SQL & Data Modeling</h3>
-          <p>Database design, query optimization, and analytics-ready data models.</p>
-        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Tech Stack -->
+  <!-- About -->
   <section class="section section--alt">
     <div class="container">
-      <div class="section__header">
-        <span class="section__label">Tech Stack</span>
-        <h2>Tools I work with</h2>
-      </div>
-      <div class="stats">
-        <div class="stat">
-          <h3>Power BI</h3>
-          <p>Dashboards & DAX</p>
-        </div>
-        <div class="stat">
-          <h3>SQL</h3>
-          <p>Queries & modeling</p>
-        </div>
-        <div class="stat">
-          <h3>Python</h3>
-          <p>Pipelines & automation</p>
-        </div>
-        <div class="stat">
-          <h3>dbt</h3>
-          <p>Transformations & tests</p>
-        </div>
-        <div class="stat">
-          <h3>BigQuery</h3>
-          <p>Data warehouse</p>
-        </div>
-        <div class="stat">
-          <h3>Terraform</h3>
-          <p>Infrastructure as Code</p>
-        </div>
-      </div>
-    </div>
-  </section>
+      <div class="about-split">
 
-  <!-- Featured Work -->
-  <section class="section">
-    <div class="container">
-      <div class="section__header">
-        <span class="section__label">Featured Work</span>
-        <h2>Recent dashboards</h2>
-        <p>Production-ready Power BI templates you can buy or customize for your business.</p>
-      </div>
-      <div class="projects">
-        <div class="project-card">
-          <img src="img/executive_summary.png" alt="Ecommerce Sales Dashboard" class="project-card__img">
-          <div class="project-card__body">
-            <div class="project-card__tags">
-              <span class="tag tag--bi">Power BI</span>
-              <span class="tag tag--bi">Ecommerce</span>
-            </div>
-            <h3>Ecommerce Sales Dashboard</h3>
-            <p>Revenue, orders, and customer performance. 27 DAX measures, star schema, conditional formatting.</p>
-            <div class="project-card__links">
-              <a href="case-studies/ecommerce-dashboard.html">Case Study &rarr;</a>
-            </div>
-          </div>
+        <div class="about__photo">
+          <!-- Replace with your headshot -->
+          <img src="img/tobias.jpg" alt="Tobias Lewen">
         </div>
-        <div class="project-card">
-          <img src="img/finance_p_and_l_performance.png" alt="Finance Performance Dashboard" class="project-card__img">
-          <div class="project-card__body">
-            <div class="project-card__tags">
-              <span class="tag tag--bi">Power BI</span>
-              <span class="tag tag--bi">Finance</span>
-            </div>
-            <h3>Finance Performance Dashboard</h3>
-            <p>P&L overview, budget vs actual variance, departmental spend. 26 DAX measures, RLS by department.</p>
-            <div class="project-card__links">
-              <a href="case-studies/finance-dashboard.html">Case Study &rarr;</a>
-            </div>
-          </div>
+
+        <div class="about__text">
+          <span class="section__label">About</span>
+          <h2>One person.<br>End to end.</h2>
+
+          <p>I'm Tobias. I've been working in data and BI for a few years, mostly for mid-size companies. At some point I started getting asked to help with websites and online presence too, so I figured I'd just do both.</p>
+
+          <p>With tofia analytics you work directly with me. No middlemen, no account managers. I do the work, I answer your messages, and I'll tell you straight if something isn't worth doing.</p>
+
+          <p>Based in Berlin, happy to work remotely anywhere in Europe.</p>
+
+          <a href="contact.html" class="btn btn--primary" style="margin-top: 12px;">Let's talk</a>
         </div>
+
       </div>
     </div>
   </section>
@@ -159,9 +144,9 @@
   <!-- CTA -->
   <section class="section section--alt" style="text-align: center;">
     <div class="container">
-      <h2>Ready to see your data clearly?</h2>
-      <p style="color: var(--text-light); margin: 12px 0 28px;">Let's talk about what you need - no commitment, no jargon.</p>
-      <a href="contact.html" class="btn btn--primary">Start a Conversation</a>
+      <h2>Not sure where to start?</h2>
+      <p style="color: var(--text-light); margin: 12px 0 28px; max-width: 480px; margin-left: auto; margin-right: auto;">Tell me what you're trying to achieve. I'll give you a straight answer about whether I can help, and if not, point you in the right direction.</p>
+      <a href="contact.html" class="btn btn--primary">Start the conversation</a>
     </div>
   </section>
 
