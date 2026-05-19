@@ -132,6 +132,13 @@ img { max-width: 100%; height: auto; display: block; }
 .contact-form textarea { min-height: 120px; resize: vertical; }
 .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
 
+/* ── Language toggle ── */
+.nav__lang { display: flex; gap: 6px; align-items: center; font-size: 0.8rem; font-weight: 600; margin-left: 8px; }
+.nav__lang a { color: #64748B; transition: color 0.2s; }
+.nav__lang a:hover { color: #fff; }
+.nav__lang--active { color: #fff !important; cursor: default; }
+.nav__lang span { color: #334155; }
+
 /* ── Footer ── */
 .footer { background: var(--bg-dark); color: #94A3B8; padding: 40px 0; text-align: center; font-size: 0.85rem; }
 .footer a { color: #CBD5E1; }

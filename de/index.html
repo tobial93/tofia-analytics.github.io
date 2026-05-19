@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tofia analytics - Websites & BI Consulting</title>
+  <meta name="description" content="tofia analytics liefert digitale Lösungen für lokale Unternehmen und wachsende Firmen. Websites, SEO, Power BI Dashboards und Datenplattformen.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .about-split { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; }
+    .about__photo img { width: 100%; max-width: 380px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+    .about__text h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin: 12px 0 20px; }
+    .about__text p { color: var(--text-light); font-size: 1rem; line-height: 1.7; margin-bottom: 16px; }
+    .about__text p strong { color: var(--text); }
+    .services-split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
+    .service-track { border: 1px solid var(--border); border-radius: 12px; padding: 36px 32px; background: var(--bg); }
+    .service-track--web { border-top: 4px solid var(--accent); }
+    .service-track--data { border-top: 4px solid var(--primary); }
+    .service-track__eyebrow { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .service-track--web .service-track__eyebrow { color: var(--accent); }
+    .service-track--data .service-track__eyebrow { color: var(--primary); }
+    .service-track h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+    .service-track > p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px; }
+    .service-track ul { list-style: none; }
+    .service-track li { padding: 8px 0; font-size: 0.9rem; color: var(--text-light); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .service-track li:last-child { border-bottom: none; }
+    .service-track li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .service-track--web li::before { background: var(--accent); }
+    .service-track--data li::before { background: var(--primary); }
+    @media (max-width: 768px) {
+      .about-split { grid-template-columns: 1fr; }
+      .about__photo { text-align: center; }
+      .about__photo img { max-width: 260px; margin: 0 auto; }
+      .services-split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="contact.html">Kontakt</a></li>
+      </ul>
+      <div class="nav__lang">
+        <a href="../index.html">EN</a>
+        <span>|</span>
+        <a class="nav__lang--active">DE</a>
+      </div>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" style="padding: 100px 0 80px;">
+    <div class="container" style="text-align: center; max-width: 760px;">
+      <p class="hero__label">Data &amp; Web Consulting &middot; Berlin</p>
+      <h1 style="font-size: 3rem;">Websites, die gefunden werden.<br><span>Daten, die zeigen, was funktioniert.</span></h1>
+      <p class="hero__sub" style="margin: 0 auto 32px; max-width: 560px;">tofia analytics liefert digitale Lösungen für lokale Unternehmen und wachsende Firmen. Websites, die konvertieren, und Dashboards, die echte Entscheidungen ermöglichen.</p>
+      <div class="hero__cta" style="justify-content: center;">
+        <a href="contact.html" class="btn btn--primary">Kostenloses Gespräch buchen</a>
+        <a href="../portfolio.html" class="btn btn--outline">Unsere Arbeit ansehen</a>
+      </div>
+      <p class="hero__reassure">15 Minuten, kein Verkaufsgespräch, nur ein ehrliches Gespräch über Ihre Anforderungen.</p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">Leistungen</span>
+        <h2>Zwei Arten von Problemen. Eine Person, die beide löst.</h2>
+        <p>Ob Sie online sichtbar werden oder Ihre Zahlen besser verstehen wollen, dafür gibt es das passende Angebot.</p>
+      </div>
+      <div class="services-split">
+
+        <div class="service-track service-track--web">
+          <div class="service-track__eyebrow">Für lokale Unternehmen</div>
+          <h3>Gefunden werden. Kunden gewinnen.</h3>
+          <p>Eine professionelle Online-Präsenz, die für Sie arbeitet.</p>
+          <ul>
+            <li>Website-Design & Entwicklung (schnell, mobil-optimiert)</li>
+            <li>Lokales SEO & Google Business Profil</li>
+            <li>Kontaktformulare & Lead-Erfassung</li>
+            <li>Laufende Wartung & Updates</li>
+          </ul>
+        </div>
+
+        <div class="service-track service-track--data">
+          <div class="service-track__eyebrow">Für wachsende Unternehmen</div>
+          <h3>Sehen was funktioniert. Schneller entscheiden.</h3>
+          <p>Von Rohdaten zu klaren Dashboards und zuverlässigen Pipelines.</p>
+          <ul>
+            <li>Power BI Dashboards & DAX-Entwicklung</li>
+            <li>Datenplattformen (dbt, BigQuery, SQL)</li>
+            <li>KPI-Design & Reporting-Automatisierung</li>
+            <li>Datenmodellierung & Bereinigung</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="about-split">
+
+        <div class="about__photo">
+          <img src="../img/tobias.jpg" alt="Tobias Lewen">
+        </div>
+
+        <div class="about__text">
+          <span class="section__label">Über mich</span>
+          <h2>Eine Person.<br>Von Anfang bis Ende.</h2>
+
+          <p>Ich bin Tobias. Ich arbeite seit einigen Jahren im Bereich Data und BI, hauptsächlich für mittelgroße Unternehmen. Irgendwann kamen immer mehr Anfragen zu Websites und Online-Präsenz dazu, also mache ich beides.</p>
+
+          <p>Mit tofia analytics arbeiten Sie direkt mit mir. Keine Zwischenhändler, keine Account-Manager. Ich mache die Arbeit, ich beantworte Ihre Nachrichten, und ich sage Ihnen direkt, wenn etwas keinen Sinn ergibt.</p>
+
+          <p>In Berlin ansässig, remote in ganz Europa tätig.</p>
+
+          <a href="contact.html" class="btn btn--primary" style="margin-top: 12px;">Gespräch vereinbaren</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--alt" style="text-align: center;">
+    <div class="container">
+      <h2>Nicht sicher, wo anfangen?</h2>
+      <p style="color: var(--text-light); margin: 12px 0 28px; max-width: 480px; margin-left: auto; margin-right: auto;">Erzählen Sie mir, was Sie erreichen möchten. Ich gebe Ihnen eine klare Antwort, ob ich helfen kann, und wenn nicht, zeige ich Ihnen die richtige Richtung.</p>
+      <a href="contact.html" class="btn btn--primary">Gespräch starten</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. Alle Rechte vorbehalten.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
