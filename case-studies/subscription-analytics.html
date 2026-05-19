@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Analytics Platform - tofia analytics</title>
+  <meta name="description" content="Case study: end-to-end data warehouse for a regional news publisher. BigQuery, dbt, GCP, Terraform. Three source systems, multi-touch attribution, 240M daily events.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="case-study">
+
+        <a href="../portfolio.html" style="font-size: 0.9rem;">&larr; Back to Portfolio</a>
+
+        <h1 style="margin-top: 24px;">Subscription Analytics Platform</h1>
+
+        <div class="case-study__meta">
+          <span>BigQuery</span>
+          <span>dbt</span>
+          <span>GCP</span>
+          <span>Terraform</span>
+          <span>Python</span>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.9rem;">
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Sector</td>
+            <td style="padding: 8px 0;">Digital Publishing</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Role</td>
+            <td style="padding: 8px 0;">Lead Data / Analytics Engineer</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Stack</td>
+            <td style="padding: 8px 0;">GCP (BigQuery, Cloud Run, Cloud Workflows, GCS), dbt, Terraform, Python</td>
+          </tr>
+        </table>
+
+        <h2>The Challenge</h2>
+        <p>A regional news publisher runs its subscription platform on WordPress and WooCommerce. Server-side tracking runs through an external tracking partner via cross-project BigQuery in the EU region. Marketing tracking runs through GA4 in a separate GCP project. These three systems were operationally disconnected: marketing had no visibility into which articles drove subscriptions; editorial had no data on which topics retained subscribers; management had no unified daily metrics.</p>
+
+        <h2>The Requirement</h2>
+        <p>Build a central data warehouse that daily:</p>
+        <ol style="padding-left: 20px; margin: 12px 0;">
+          <li style="margin-bottom: 8px;">Reads subscription data from the WordPress DB (orders, subscriptions, custom fields)</li>
+          <li style="margin-bottom: 8px;">Pulls server-side pageviews from the tracking partner (~300k events/day, cross-region)</li>
+          <li style="margin-bottom: 8px;">Syncs GA4 events from the external tracking project</li>
+          <li style="margin-bottom: 8px;">Joins these sources in a star schema delivering conversion attribution, engagement metrics, and daily KPIs</li>
+          <li>Exposes stable SQL tables to internal stakeholders (marketing, editorial, management) and external BI tools via read-only service accounts</li>
+        </ol>
+
+        <h2>Architecture</h2>
+        <p>Medallion pattern (Bronze / Silver / Gold) on BigQuery, orchestrated via Cloud Workflows with a daily Cloud Scheduler trigger.</p>
+        <ul>
+          <li><strong>Bronze</strong> - Raw data as Parquet in GCS, with BigQuery External Tables on top. Append-only via retention policies in stg/prd.</li>
+          <li><strong>Silver</strong> - 1:1 staging models plus pivot/denormalization via dbt. Pre-aggregation dimensions for expensive joins.</li>
+          <li><strong>Gold</strong> - Star schema with 5 fact tables (Conversions, Daily Metrics, Subscription Funnel, Article Engagement, Multi-Touch Attribution Paths). Incremental materialization with insert-overwrite partitioning.</li>
+        </ul>
+        <p>Cross-region and cross-project data is pulled via a dedicated service account setup with minimal IAM bindings. One source had no API (legacy WordPress DB): a MySQL-via-SSH fetcher was built with a VPC connector and static egress IP so the hosting provider can maintain a reliable IP whitelist.</p>
+
+        <h2>Highlights</h2>
+        <ul>
+          <li><strong>Three-tier article attribution</strong> - Server-side tracking as primary source, WordPress paywall plugin as fallback, GA4 event param as historical tier-3 source. Attribution coverage raised from 72% to 89%.</li>
+          <li><strong>Multi-touch attribution fact table</strong> - Per-touchpoint expansion of each conversion over a 30-day trace window. Five attribution weightings (first-touch, last-touch, linear, time-decay, U-shaped) stored as denormalized columns, directly usable in Looker and Power BI.</li>
+          <li><strong>Buying impulse clustering</strong> - Conversions counted per 60-minute cluster rather than per order, which overstates due to failed payment retries.</li>
+          <li><strong>Watermark and run registry</strong> - Custom registry enables reprocessing of individual days and dependency checks for downstream models.</li>
+          <li><strong>Infrastructure as code</strong> - Fully in Terraform. Three identical environments (dev/stg/prd) plus a dedicated backfill workflow.</li>
+          <li><strong>Data quality</strong> - dbt tests plus Elementary with a Slack webhook for schema drift and freshness alerts.</li>
+        </ul>
+
+        <h2>Results</h2>
+        <ul>
+          <li>Daily pipeline has run stably since go-live; current volume ~240M tracking events and ~10k daily orders</li>
+          <li>BI access via read-only service accounts for three stakeholder groups</li>
+          <li>Full tracking history backfill (2 years, ~8 TB scan) completed in one session for under $40 GCP cost</li>
+          <li>First marketing insights from the multi-touch model: median subscriber reads 65 articles over 12 days before converting. Single-touch attribution had hidden this entirely.</li>
+        </ul>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href="../contact.html" class="btn btn--primary">Discuss a Similar Project</a>
+          <a href="../portfolio.html" class="btn btn--outline" style="color: var(--primary); border-color: var(--primary); margin-left: 12px;">Back to Portfolio</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
