@@ -56,6 +56,11 @@
           </tr>
         </table>
 
+        <figure style="margin: 0 0 40px;">
+          <img src="../img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+          <figcaption style="font-size: 0.8rem; color: var(--text-light); margin-top: 8px; text-align: center;">Architecture overview: GCP · BigQuery · dbt · Terraform, nightly @ 05:00 Berlin</figcaption>
+        </figure>
+
         <h2>The Challenge</h2>
         <p>A regional news publisher runs its subscription platform on WordPress and WooCommerce. Server-side tracking runs through an external tracking partner via cross-project BigQuery in the EU region. Marketing tracking runs through GA4 in a separate GCP project. These three systems were operationally disconnected: marketing had no visibility into which articles drove subscriptions; editorial had no data on which topics retained subscribers; management had no unified daily metrics.</p>
 
@@ -77,11 +82,6 @@
           <li><strong>Gold</strong> - Star schema with 5 fact tables (Conversions, Daily Metrics, Subscription Funnel, Article Engagement, Multi-Touch Attribution Paths). Incremental materialization with insert-overwrite partitioning.</li>
         </ul>
         <p>Cross-region and cross-project data is pulled via a dedicated service account setup with minimal IAM bindings. One source had no API (legacy WordPress DB): a MySQL-via-SSH fetcher was built with a VPC connector and static egress IP so the hosting provider can maintain a reliable IP whitelist.</p>
-
-        <figure style="margin: 32px 0;">
-          <img src="../img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
-          <figcaption style="font-size: 0.8rem; color: var(--text-light); margin-top: 8px; text-align: center;">Architecture overview: GCP · BigQuery · dbt · Terraform, nightly @ 05:00 Berlin</figcaption>
-        </figure>
 
         <h2>Highlights</h2>
         <ul>
