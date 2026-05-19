@@ -78,6 +78,11 @@
         </ul>
         <p>Cross-region and cross-project data is pulled via a dedicated service account setup with minimal IAM bindings. One source had no API (legacy WordPress DB): a MySQL-via-SSH fetcher was built with a VPC connector and static egress IP so the hosting provider can maintain a reliable IP whitelist.</p>
 
+        <figure style="margin: 32px 0;">
+          <img src="../img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+          <figcaption style="font-size: 0.8rem; color: var(--text-light); margin-top: 8px; text-align: center;">Architecture overview: GCP · BigQuery · dbt · Terraform, nightly @ 05:00 Berlin</figcaption>
+        </figure>
+
         <h2>Highlights</h2>
         <ul>
           <li><strong>Three-tier article attribution</strong> - Server-side tracking as primary source, WordPress paywall plugin as fallback, GA4 event param as historical tier-3 source. Attribution coverage raised from 72% to 89%.</li>
