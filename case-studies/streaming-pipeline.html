@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-time E-commerce Event Pipeline - tofia analytics</title>
+  <meta name="description" content="Case study: real-time e-commerce event pipeline on GCP. Pub/Sub, Cloud Run, BigQuery, dbt, Terraform. Streaming clickstream with session-grain conversion deduplication.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="case-study">
+
+        <a href="../portfolio.html" style="font-size: 0.9rem;">&larr; Back to Portfolio</a>
+
+        <h1 style="margin-top: 24px;">Real-time E-commerce Event Pipeline</h1>
+
+        <div class="case-study__meta">
+          <span>Pub/Sub</span>
+          <span>Cloud Run</span>
+          <span>BigQuery</span>
+          <span>dbt</span>
+          <span>Terraform</span>
+          <span>Python</span>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.9rem;">
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Type</td>
+            <td style="padding: 8px 0;">Portfolio project — fully reproducible, open source</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Stack</td>
+            <td style="padding: 8px 0;">GCP (Pub/Sub, Cloud Run, BigQuery), dbt, Terraform, Python (FastAPI, Pydantic)</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Source</td>
+            <td style="padding: 8px 0;"><a href="https://github.com/tobial93/streaming-ecommerce-pipeline" target="_blank">github.com/tobial93/streaming-ecommerce-pipeline &rarr;</a></td>
+          </tr>
+        </table>
+
+        <figure style="margin: 0 0 40px;">
+          <img src="../img/streaming-pipeline-architecture.svg" alt="Real-time E-commerce Event Pipeline architecture" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+        </figure>
+
+        <h2>The Problem</h2>
+        <p>Most e-commerce analytics pipelines are batch: orders land in a database, a nightly job loads them into a warehouse, and the dashboard reflects yesterday's reality. That works until you need to catch a payment failure surge at 11 PM, act on a spike in cart abandonments before a flash sale ends, or measure the real conversion impact of a real-time promotion.</p>
+        <p>This project demonstrates a streaming alternative: events flow from the frontend into BigQuery within seconds, and aggregated metrics refresh every five minutes via dbt.</p>
+
+        <h2>Architecture</h2>
+        <p>The pipeline has three layers: ingestion, storage, and transformation.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Ingestion</h3>
+        <p>A Python producer generates synthetic clickstream events at configurable throughput (10-100 events/second) and publishes them to a Pub/Sub topic. Four event types follow realistic funnel weights: <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">page_view</code> (70%), <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">add_to_cart</code> (15%), <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">begin_checkout</code> (10%), <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">purchase</code> (5%). Sessions rotate after a random number of events to simulate real browsing behaviour; 30% of sessions are anonymous.</p>
+        <p>Pub/Sub delivers messages via a push subscription to the Cloud Run consumer, authenticated with OIDC tokens. A dead-letter topic receives messages that fail five consecutive delivery attempts.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Consumer</h3>
+        <p>The Cloud Run service is a FastAPI application. Each push delivery is a base64-encoded Pub/Sub message; the consumer decodes it, validates it with a Pydantic model, and writes to BigQuery. Two failure modes are handled differently:</p>
+        <ul>
+          <li><strong>Malformed or invalid messages</strong> return HTTP 200 (acknowledged and discarded) to prevent poison-pill redelivery loops.</li>
+          <li><strong>Transient BigQuery errors</strong> return HTTP 500 so Pub/Sub retries with exponential backoff.</li>
+        </ul>
+        <p>Cloud Run scales from 0 to 10 instances automatically. At low throughput it costs nothing; at high throughput it scales within seconds.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Storage</h3>
+        <p>The BigQuery <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">raw_events</code> table is partitioned by day on <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">event_timestamp</code> and clustered on <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">event_type</code> and <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">session_id</code>. Partition pruning and clustering together reduce bytes scanned significantly for the common query patterns (time-range + event type filters).</p>
+
+        <h2>dbt Transformation Layer</h2>
+        <p>Three mart models run on a 5-minute Cloud Scheduler trigger:</p>
+        <ul>
+          <li><strong>fct_events_5min</strong> — 5-minute tumbling window aggregates: event counts, revenue, unique sessions and users per event type and category. The primary feed for near-real-time dashboards.</li>
+          <li><strong>fct_funnel_hourly</strong> — Hourly conversion funnel with step-by-step rates: view-to-cart, cart-to-checkout, checkout-to-purchase, and overall conversion. Includes <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">SAFE_DIVIDE</code> throughout to avoid division-by-zero errors on sparse hours.</li>
+          <li><strong>fct_session_conversions</strong> — Session-grain conversion analysis. One row per session, not per order.</li>
+        </ul>
+
+        <h2>Session-grain Conversion Deduplication</h2>
+        <p>Counting purchases per WooCommerce order overstates conversions. A customer whose payment is declined and retried three times produces three orders but one conversion. The same problem appears in subscription billing systems — and the same fix applies: group events by session before counting.</p>
+        <p><code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">fct_session_conversions</code> groups by <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">session_id</code> and takes <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">MAX(CASE WHEN event_type = 'purchase' THEN 1 ELSE 0 END)</code> — one binary flag per session, regardless of how many order events it contains.</p>
+
+        <h2>Infrastructure</h2>
+        <p>Everything is Terraform-managed with dev and prd environments sharing the same module configuration. Key resources:</p>
+        <ul>
+          <li>Pub/Sub topic and push subscription with dead-letter policy and exponential backoff retry</li>
+          <li>Cloud Run service with startup health probe, resource limits, and min/max instance scaling</li>
+          <li>BigQuery dataset and <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">raw_events</code> table with deletion protection enabled in prd</li>
+          <li>Three service accounts with minimal IAM bindings: producer (pubsub.publisher), consumer (bigquery.dataEditor + bigquery.jobUser), Pub/Sub invoker (run.invoker)</li>
+          <li>GCS backend for remote Terraform state</li>
+        </ul>
+
+        <h2>Production Enhancements</h2>
+        <ul>
+          <li>Replace streaming inserts with the <strong>BigQuery Storage Write API committed stream</strong> for exactly-once delivery guarantees</li>
+          <li>Add Elementary with Slack webhook for schema drift and freshness alerts on the dbt layer</li>
+          <li>Add Artifact Registry to Terraform for versioned consumer image management</li>
+          <li>Extend the producer to replay historical event logs for backfill scenarios</li>
+        </ul>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href="https://github.com/tobial93/streaming-ecommerce-pipeline" target="_blank" class="btn btn--primary">View on GitHub</a>
+          <a href="../contact.html" class="btn btn--outline" style="color: var(--primary); border-color: var(--primary); margin-left: 12px;">Discuss a Similar Project</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
