@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NYC Taxi Analytics Lakehouse - tofia analytics</title>
+  <meta name="description" content="Case study: batch analytics lakehouse on Azure. Airflow orchestration, Databricks PySpark, Delta Lake medallion architecture, ADLS Gen2, Terraform.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container">
+      <a href="../index.html" class="nav__brand"><img src="../img/logo-white.svg" alt="tofia analytics" height="32"></a>
+      <ul class="nav__links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../portfolio.html">Portfolio</a></li>
+        <li><a href="../templates.html">Templates</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <div class="case-study">
+
+        <a href="../portfolio.html" style="font-size: 0.9rem;">&larr; Back to Portfolio</a>
+
+        <h1 style="margin-top: 24px;">NYC Taxi Analytics Lakehouse</h1>
+
+        <div class="case-study__meta">
+          <span>Apache Airflow</span>
+          <span>Databricks</span>
+          <span>Delta Lake</span>
+          <span>Azure</span>
+          <span>PySpark</span>
+          <span>Terraform</span>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.9rem;">
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Type</td>
+            <td style="padding: 8px 0;">Portfolio project, fully reproducible and open source</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Stack</td>
+            <td style="padding: 8px 0;">Apache Airflow, Azure Databricks, Delta Lake, ADLS Gen2, PySpark, Terraform</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Source</td>
+            <td style="padding: 8px 0;"><a href="https://github.com/tobial93/nyc-taxi-lakehouse" target="_blank">github.com/tobial93/nyc-taxi-lakehouse &rarr;</a></td>
+          </tr>
+        </table>
+
+        <figure style="margin: 0 0 40px;">
+          <img src="../img/nyc-taxi-architecture.png" alt="NYC Taxi Analytics Lakehouse architecture" class="lightbox-trigger" id="arch-img" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in;">
+          <figcaption style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light); text-align: center;">Architecture overview: Airflow orchestration, Bronze/Silver/Gold Delta Lake layers on Azure Databricks. Click to enlarge.</figcaption>
+        </figure>
+
+        <h2>The Problem</h2>
+        <p>The NYC Taxi and Limousine Commission publishes monthly Parquet files covering every yellow taxi trip in New York City, going back to 2009. Each file is around 3 GB and contains roughly 8 million rows. Raw Parquet files are useful as a historical record but unwieldy for analysis: no consistent schema enforcement across years, no partitioning strategy, no aggregated layer ready for a BI tool.</p>
+        <p>This project builds a production-grade lakehouse on top of that public dataset, demonstrating how a real batch pipeline bridges raw open data and analytics-ready tables.</p>
+
+        <h2>Architecture</h2>
+        <p>The pipeline follows the medallion pattern across three Delta Lake layers, orchestrated by Apache Airflow running locally in Docker Compose.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Orchestration</h3>
+        <p>The Airflow DAG <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">nyc_taxi_lakehouse</code> runs monthly with <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">catchup=True</code>, so a fresh deployment automatically backfills all missing months. A <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">ShortCircuitOperator</code> checks whether the NYC TLC has published the file for that month before proceeding, which handles the typical one-month publication lag without failing the run. A Python operator then streams the Parquet download directly into ADLS Gen2, avoiding any disk bottleneck on the Airflow host.</p>
+        <p>The three Databricks jobs are triggered via <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">DatabricksRunNowOperator</code>, passing <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">year</code> and <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">month</code> as notebook parameters so each job processes only its own partition.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Bronze Layer</h3>
+        <p>The raw Parquet file lands in <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">bronze/raw/{year}/{month}/</code> and is registered as a partitioned Delta table. This layer is append-only and never modified — it serves as the reprocessing source of truth if any downstream job needs to be rerun from scratch.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Silver Layer</h3>
+        <p>The PySpark cleaning job enforces a consistent snake_case schema (renaming fields like <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">VendorID</code> to <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">vendor_id</code>), derives <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">trip_duration_minutes</code>, and applies a set of quality filters:</p>
+        <ul>
+          <li>Distance between 0 and 200 miles</li>
+          <li>Fare between $0 and $1,000</li>
+          <li>Pickup strictly before dropoff</li>
+          <li>Duration between 0 and 300 minutes</li>
+          <li>Trips scoped to the expected calendar month</li>
+        </ul>
+        <p>Row counts before and after filtering are logged per run so retention rates are visible in the Airflow task logs without needing a separate monitoring tool.</p>
+
+        <h3 style="font-size: 1rem; margin: 24px 0 8px;">Gold Layer</h3>
+        <p>Two fact tables are produced from Silver:</p>
+        <ul>
+          <li><strong>fct_trips_hourly:</strong> trip volume, average fare, average distance, average duration, total revenue, and average tip — grouped by pickup hour and taxi zone. The primary feed for demand and pricing dashboards.</li>
+          <li><strong>fct_revenue_daily:</strong> daily totals by zone — trip count, total revenue, total fares, total tips, and average trip duration. Used for trend and period-over-period reporting.</li>
+        </ul>
+        <p>Both tables use Delta's <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">replaceWhere</code> on the year/month partition, making reruns fully idempotent without touching other partitions.</p>
+
+        <h2>Why Delta Lake</h2>
+        <p>Delta Lake brings three things that plain Parquet cannot: ACID transactions (so a failed job never leaves a partially written partition), time travel (any prior version of a Gold table is queryable via <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">VERSION AS OF</code>), and schema enforcement that catches upstream changes before they silently corrupt downstream tables. For a monthly pipeline where a bad run might only surface during the next BI refresh, these guarantees matter.</p>
+
+        <h2>Infrastructure</h2>
+        <p>Everything is Terraform-managed across dev and prd environments. Key resources:</p>
+        <ul>
+          <li>ADLS Gen2 storage account with hierarchical namespace and four containers: bronze, silver, gold, tfstate</li>
+          <li>Azure Databricks workspace (Premium SKU) with an autoscaling cluster (1 to 4 nodes, Standard_DS3_v2, 20-minute auto-termination)</li>
+          <li>Service principal with Storage Blob Data Contributor role, credentials stored in a Databricks secret scope so notebooks never handle plaintext keys</li>
+          <li>Databricks notebooks uploaded and registered as jobs — Terraform outputs the job IDs directly, which are set as Airflow Variables after apply</li>
+          <li>Azure Blob backend for remote Terraform state</li>
+        </ul>
+
+        <h2>Testing</h2>
+        <p>The Silver quality filter logic is unit-tested with PySpark in local mode. Each filter rule has a dedicated test that constructs a minimal DataFrame, applies the transformation, and asserts the expected row count and derived values. This makes it straightforward to validate filter changes without running a full Databricks job.</p>
+
+        <h2>Production Enhancements</h2>
+        <ul>
+          <li>Replace service principal with Azure Managed Identity for Databricks authentication, eliminating secret rotation entirely</li>
+          <li>Add weekly <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">OPTIMIZE</code> and <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">VACUUM</code> Airflow tasks to compact small files and reclaim storage</li>
+          <li>Wire Great Expectations for automated data quality reports on Gold tables</li>
+          <li>Enable Unity Catalog for fine-grained table-level access control across teams</li>
+          <li>Add a Databricks SQL warehouse for direct BI tool connectivity without exporting data</li>
+        </ul>
+
+        <div style="margin-top: 48px; text-align: center;">
+          <a href="https://github.com/tobial93/nyc-taxi-lakehouse" target="_blank" class="btn btn--primary">View on GitHub</a>
+          <a href="../contact.html" class="btn btn--outline" style="color: var(--primary); border-color: var(--primary); margin-left: 12px;">Discuss a Similar Project</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
+        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+      </div>
+      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="" style="max-width:95vw; max-height:92vh; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+  </div>
+
+  <script>
+    document.querySelectorAll('.lightbox-trigger').forEach(function(img) {
+      img.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = this.src;
+        document.getElementById('lightbox-img').alt = this.alt;
+        document.getElementById('lightbox').style.display = 'flex';
+      });
+    });
+  </script>
+
+</body>
+</html>
