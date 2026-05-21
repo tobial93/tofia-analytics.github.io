@@ -45,7 +45,7 @@
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.9rem;">
           <tr>
             <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Type</td>
-            <td style="padding: 8px 0;">Portfolio project — fully reproducible, open source</td>
+            <td style="padding: 8px 0;">Portfolio project, fully reproducible and open source</td>
           </tr>
           <tr>
             <td style="padding: 8px 16px 8px 0; color: var(--text-light); white-space: nowrap;">Stack</td>
@@ -58,7 +58,8 @@
         </table>
 
         <figure style="margin: 0 0 40px;">
-          <img src="../img/streaming-pipeline-architecture.png" alt="Real-time E-commerce Event Pipeline architecture" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+          <img src="../img/streaming-pipeline-architecture.png" alt="Real-time E-commerce Event Pipeline architecture" id="arch-img" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in;">
+          <figcaption style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light); text-align: center;">Architecture overview: Producer to Pub/Sub, Cloud Run consumer, BigQuery raw layer, dbt marts, BI tools. Click to enlarge.</figcaption>
         </figure>
 
         <h2>The Problem</h2>
@@ -86,13 +87,13 @@
         <h2>dbt Transformation Layer</h2>
         <p>Three mart models run on a 5-minute Cloud Scheduler trigger:</p>
         <ul>
-          <li><strong>fct_events_5min</strong> — 5-minute tumbling window aggregates: event counts, revenue, unique sessions and users per event type and category. The primary feed for near-real-time dashboards.</li>
-          <li><strong>fct_funnel_hourly</strong> — Hourly conversion funnel with step-by-step rates: view-to-cart, cart-to-checkout, checkout-to-purchase, and overall conversion. Includes <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">SAFE_DIVIDE</code> throughout to avoid division-by-zero errors on sparse hours.</li>
-          <li><strong>fct_session_conversions</strong> — Session-grain conversion analysis. One row per session, not per order.</li>
+          <li><strong>fct_events_5min:</strong> 5-minute tumbling window aggregates covering event counts, revenue, unique sessions and users per event type and category. The primary feed for near-real-time dashboards.</li>
+          <li><strong>fct_funnel_hourly:</strong> Hourly conversion funnel with step-by-step rates: view-to-cart, cart-to-checkout, checkout-to-purchase, and overall conversion. Uses <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">SAFE_DIVIDE</code> throughout to avoid division-by-zero errors on sparse hours.</li>
+          <li><strong>fct_session_conversions:</strong> Session-grain conversion analysis. One row per session, not per order.</li>
         </ul>
 
         <h2>Session-grain Conversion Deduplication</h2>
-        <p>Counting purchases per WooCommerce order overstates conversions. A customer whose payment is declined and retried three times produces three orders but one conversion. The same problem appears in subscription billing systems — and the same fix applies: group events by session before counting.</p>
+        <p>Counting purchases per WooCommerce order overstates conversions. A customer whose payment is declined and retried three times produces three orders but one conversion. The same problem appears in subscription billing systems, and the same fix applies: group events by session before counting.</p>
         <p><code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">fct_session_conversions</code> groups by <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">session_id</code> and takes <code style="background: var(--bg-light); padding: 2px 6px; border-radius: 4px; font-size: 0.85rem;">MAX(CASE WHEN event_type = 'purchase' THEN 1 ELSE 0 END)</code> — one binary flag per session, regardless of how many order events it contains.</p>
 
         <h2>Infrastructure</h2>
@@ -131,6 +132,18 @@
       <p>&copy; 2026 tofia analytics. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;" onclick="document.getElementById('lightbox').style.display='none'">
+    <img id="lightbox-img" src="../img/streaming-pipeline-architecture.png" alt="Architecture diagram" style="max-width:95vw; max-height:92vh; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+  </div>
+
+  <script>
+    document.getElementById('arch-img').addEventListener('click', function() {
+      var lb = document.getElementById('lightbox');
+      lb.style.display = 'flex';
+    });
+  </script>
 
 </body>
 </html>
