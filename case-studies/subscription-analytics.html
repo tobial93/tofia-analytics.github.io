@@ -57,7 +57,7 @@
         </table>
 
         <figure style="margin: 0 0 40px;">
-          <img src="../img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture overview" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+          <img src="../img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture overview" class="lightbox-trigger" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); cursor: zoom-in;">
           <figcaption style="font-size: 0.8rem; color: var(--text-light); margin-top: 8px; text-align: center;">Architecture overview: GCP · BigQuery · dbt · Terraform, nightly @ 05:00 Berlin</figcaption>
         </figure>
 
@@ -77,20 +77,20 @@
         <h2>Architecture</h2>
         <p>Medallion pattern (Bronze / Silver / Gold) on BigQuery, orchestrated via Cloud Workflows with a daily Cloud Scheduler trigger.</p>
         <ul>
-          <li><strong>Bronze</strong> - Raw data as Parquet in GCS, with BigQuery External Tables on top. Append-only via retention policies in stg/prd.</li>
-          <li><strong>Silver</strong> - 1:1 staging models plus pivot/denormalization via dbt. Pre-aggregation dimensions for expensive joins.</li>
-          <li><strong>Gold</strong> - Star schema with 5 fact tables (Conversions, Daily Metrics, Subscription Funnel, Article Engagement, Multi-Touch Attribution Paths). Incremental materialization with insert-overwrite partitioning.</li>
+          <li><strong>Bronze</strong>:Raw data as Parquet in GCS, with BigQuery External Tables on top. Append-only via retention policies in stg/prd.</li>
+          <li><strong>Silver</strong>:1:1 staging models plus pivot/denormalization via dbt. Pre-aggregation dimensions for expensive joins.</li>
+          <li><strong>Gold</strong>:Star schema with 5 fact tables (Conversions, Daily Metrics, Subscription Funnel, Article Engagement, Multi-Touch Attribution Paths). Incremental materialization with insert-overwrite partitioning.</li>
         </ul>
         <p>Cross-region and cross-project data is pulled via a dedicated service account setup with minimal IAM bindings. One source had no API (legacy WordPress DB): a MySQL-via-SSH fetcher was built with a VPC connector and static egress IP so the hosting provider can maintain a reliable IP whitelist.</p>
 
         <h2>Highlights</h2>
         <ul>
-          <li><strong>Three-tier article attribution</strong> - Server-side tracking as primary source, WordPress paywall plugin as fallback, GA4 event param as historical tier-3 source. Attribution coverage raised from 72% to 89%.</li>
-          <li><strong>Multi-touch attribution fact table</strong> - Per-touchpoint expansion of each conversion over a 30-day trace window. Five attribution weightings (first-touch, last-touch, linear, time-decay, U-shaped) stored as denormalized columns, directly usable in Looker and Power BI.</li>
-          <li><strong>Buying impulse clustering</strong> - Conversions counted per 60-minute cluster rather than per order, which overstates due to failed payment retries.</li>
-          <li><strong>Watermark and run registry</strong> - Custom registry enables reprocessing of individual days and dependency checks for downstream models.</li>
-          <li><strong>Infrastructure as code</strong> - Fully in Terraform. Three identical environments (dev/stg/prd) plus a dedicated backfill workflow.</li>
-          <li><strong>Data quality</strong> - dbt tests plus Elementary with a Slack webhook for schema drift and freshness alerts.</li>
+          <li><strong>Three-tier article attribution</strong>:Server-side tracking as primary source, WordPress paywall plugin as fallback, GA4 event param as historical tier-3 source. Attribution coverage raised from 72% to 89%.</li>
+          <li><strong>Multi-touch attribution fact table</strong>:Per-touchpoint expansion of each conversion over a 30-day trace window. Five attribution weightings (first-touch, last-touch, linear, time-decay, U-shaped) stored as denormalized columns, directly usable in Looker and Power BI.</li>
+          <li><strong>Buying impulse clustering</strong>:Conversions counted per 60-minute cluster rather than per order, which overstates due to failed payment retries.</li>
+          <li><strong>Watermark and run registry</strong>:Custom registry enables reprocessing of individual days and dependency checks for downstream models.</li>
+          <li><strong>Infrastructure as code</strong>:Fully in Terraform. Three identical environments (dev/stg/prd) plus a dedicated backfill workflow.</li>
+          <li><strong>Data quality</strong>:dbt tests plus Elementary with a Slack webhook for schema drift and freshness alerts.</li>
         </ul>
 
         <h2>Results</h2>
@@ -119,6 +119,21 @@
       <p>&copy; 2026 tofia analytics. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="" style="max-width:95vw; max-height:92vh; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+  </div>
+
+  <script>
+    document.querySelectorAll('.lightbox-trigger').forEach(function(img) {
+      img.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = this.src;
+        document.getElementById('lightbox-img').alt = this.alt;
+        document.getElementById('lightbox').style.display = 'flex';
+      });
+    });
+  </script>
 
 </body>
 </html>

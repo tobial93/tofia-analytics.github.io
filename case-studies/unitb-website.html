@@ -41,7 +41,10 @@
           <span>SEO</span>
         </div>
 
-        <img src="../img/unitb-home.png" alt="Digital consultancy homepage hero" class="project-card__img" style="border-radius: 8px; width: 100%; min-height: 360px; object-fit: cover;">
+        <figure style="margin: 0 0 32px;">
+          <img src="../img/unitb-home.png" alt="Digital consultancy homepage hero" class="lightbox-trigger" style="border-radius: 8px; width: 100%; min-height: 360px; object-fit: cover; cursor: zoom-in;">
+          <figcaption style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light); text-align: center;">Homepage hero. Click to enlarge.</figcaption>
+        </figure>
 
         <h2>The Challenge</h2>
         <p>A Berlin digital consultancy (~50 staff) that has been building content, data, AI, and e-commerce platforms for banks, insurers, and media houses since 2002. Their existing marketing site no longer reflected the work - dated visual language, no structured content for references or open positions, no clear story for prospective clients or hires. The brief: a static, fast, SEO-solid rebuild with a content model the team can extend without developer involvement.</p>
@@ -51,30 +54,33 @@
 
         <h2>Design System</h2>
         <ul>
-          <li><strong>Colour</strong> - navy foundation (50-950 scale anchored on #08122e), warm gold accent (#e0bd6e), ink grays, cream paper (#fafaf7)</li>
-          <li><strong>Typography</strong> - Inter Variable, with sensible system-ui fallbacks</li>
-          <li><strong>Layout tokens</strong> - 80rem container, 44rem prose width, navy-tinted card shadows</li>
-          <li><strong>Components</strong> - Section, Container, Button, Pill, Eyebrow, all built once and reused across page templates</li>
+          <li><strong>Colour</strong>:navy foundation (50-950 scale anchored on #08122e), warm gold accent (#e0bd6e), ink grays, cream paper (#fafaf7)</li>
+          <li><strong>Typography</strong>:Inter Variable, with sensible system-ui fallbacks</li>
+          <li><strong>Layout tokens</strong>:80rem container, 44rem prose width, navy-tinted card shadows</li>
+          <li><strong>Components</strong>:Section, Container, Button, Pill, Eyebrow, all built once and reused across page templates</li>
         </ul>
 
         <h2>Information Architecture</h2>
         <ul>
-          <li><strong>Home</strong> - hero with Berlin Fernsehturm photograph, three-pillar value prop, service grid, logo cloud, featured references, awards, CTA</li>
-          <li><strong>Services</strong> - Content Management, Data, AI, E-Commerce - each with its own page</li>
-          <li><strong>References</strong> - filterable index of client case studies, individual reference pages</li>
-          <li><strong>News</strong> - chronological feed with RSS</li>
-          <li><strong>Careers</strong> - open positions with structured metadata, application email</li>
+          <li><strong>Home</strong>:hero with Berlin Fernsehturm photograph, three-pillar value prop, service grid, logo cloud, featured references, awards, CTA</li>
+          <li><strong>Services</strong>:Content Management, Data, AI, E-Commerce - each with its own page</li>
+          <li><strong>References</strong>:filterable index of client case studies, individual reference pages</li>
+          <li><strong>News</strong>:chronological feed with RSS</li>
+          <li><strong>Careers</strong>:open positions with structured metadata, application email</li>
           <li><strong>About / Contact / Legal</strong></li>
         </ul>
 
-        <img src="../img/unitb-services.png" alt="Digital consultancy services section" style="border-radius: 8px; width: 100%; object-fit: cover; margin: 24px 0;">
+        <figure style="margin: 24px 0 32px;">
+          <img src="../img/unitb-services.png" alt="Digital consultancy services section" class="lightbox-trigger" style="border-radius: 8px; width: 100%; object-fit: cover; cursor: zoom-in;">
+          <figcaption style="margin-top: 10px; font-size: 0.8rem; color: var(--text-light); text-align: center;">Services section. Click to enlarge.</figcaption>
+        </figure>
 
         <h2>Content Model</h2>
         <p>Three Zod-validated content collections in MDX so editors work in plain markdown:</p>
         <ul>
-          <li><strong>References</strong> - title, client, industry (banks/insurance, media, corporate), services array, year, 280-char summary, optional client logo SVG, featured flag, draft flag</li>
-          <li><strong>News</strong> - title, publish date, summary, tags, draft flag</li>
-          <li><strong>Jobs</strong> - title, location (default Berlin/Remote), type (full-time/part-time/student/intern), summary, application email, open flag</li>
+          <li><strong>References</strong>:title, client, industry (banks/insurance, media, corporate), services array, year, 280-char summary, optional client logo SVG, featured flag, draft flag</li>
+          <li><strong>News</strong>:title, publish date, summary, tags, draft flag</li>
+          <li><strong>Jobs</strong>:title, location (default Berlin/Remote), type (full-time/part-time/student/intern), summary, application email, open flag</li>
         </ul>
 
         <h2>SEO & Performance</h2>
@@ -92,11 +98,11 @@
 
         <h2>Stack</h2>
         <ul>
-          <li><strong>Framework</strong> - Astro 5.1 with the MDX, Sitemap, and RSS integrations</li>
-          <li><strong>Styling</strong> - Tailwind 4 via the Vite plugin, design tokens in a single global stylesheet</li>
-          <li><strong>OG images</strong> - astro-og-canvas + canvaskit-wasm</li>
-          <li><strong>Hosting</strong> - Cloudflare Pages (static), Wrangler config in repo for phase 2 contact-form Worker</li>
-          <li><strong>Type safety</strong> - astro check in the build pipeline, Zod for content schemas</li>
+          <li><strong>Framework</strong>:Astro 5.1 with the MDX, Sitemap, and RSS integrations</li>
+          <li><strong>Styling</strong>:Tailwind 4 via the Vite plugin, design tokens in a single global stylesheet</li>
+          <li><strong>OG images</strong>:astro-og-canvas + canvaskit-wasm</li>
+          <li><strong>Hosting</strong>:Cloudflare Pages (static), Wrangler config in repo for phase 2 contact-form Worker</li>
+          <li><strong>Type safety</strong>:astro check in the build pipeline, Zod for content schemas</li>
         </ul>
 
         <h2>Status</h2>
@@ -120,6 +126,21 @@
       <p>&copy; 2026 tofia analytics. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; cursor:zoom-out;" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="" style="max-width:95vw; max-height:92vh; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+  </div>
+
+  <script>
+    document.querySelectorAll('.lightbox-trigger').forEach(function(img) {
+      img.addEventListener('click', function() {
+        document.getElementById('lightbox-img').src = this.src;
+        document.getElementById('lightbox-img').alt = this.alt;
+        document.getElementById('lightbox').style.display = 'flex';
+      });
+    });
+  </script>
 
 </body>
 </html>
