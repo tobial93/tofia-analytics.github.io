@@ -1,170 +1,371 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tofia analytics - Websites & BI Consulting</title>
-  <meta name="description" content="Tobias Lewen helps local businesses get found online and growing companies make sense of their data. Websites, SEO, Power BI dashboards, and data platforms.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* ── About split ── */
-    .about-split { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: center; }
-    .about__photo img { width: 100%; max-width: 380px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
-    .about__text h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin: 12px 0 20px; }
-    .about__text p { color: var(--text-light); font-size: 1rem; line-height: 1.7; margin-bottom: 16px; }
-    .about__text p strong { color: var(--text); }
-    .about__creds { display: flex; gap: 32px; margin: 28px 0 32px; }
-    .about__cred strong { display: block; font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-    .about__cred span { font-size: 0.8rem; color: var(--text-light); }
-
-    /* ── Service tracks ── */
-    .services-split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
-    .service-track { border: 1px solid var(--border); border-radius: 12px; padding: 36px 32px; background: var(--bg); }
-    .service-track--web { border-top: 4px solid var(--accent); }
-    .service-track--data { border-top: 4px solid var(--primary); }
-    .service-track__eyebrow { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-    .service-track--web .service-track__eyebrow { color: var(--accent); }
-    .service-track--data .service-track__eyebrow { color: var(--primary); }
-    .service-track h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-    .service-track > p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 24px; }
-    .service-track ul { list-style: none; }
-    .service-track li { padding: 8px 0; font-size: 0.9rem; color: var(--text-light); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-    .service-track li:last-child { border-bottom: none; }
-    .service-track li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .service-track--web li::before { background: var(--accent); }
-    .service-track--data li::before { background: var(--primary); }
-
-    @media (max-width: 768px) {
-      .about-split { grid-template-columns: 1fr; }
-      .about__photo { text-align: center; }
-      .about__photo img { max-width: 260px; margin: 0 auto; }
-      .services-split { grid-template-columns: 1fr; }
-      .about__creds { gap: 20px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>tofia analytics — Datenplattformen für den Mittelstand</title>
+<meta name="description" content="Datenplattformen für den Mittelstand: Audit, Aufbau und Betrieb zum Festpreis. Freiberuflicher Data Engineer in Berlin.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-
-  <!-- Nav -->
-  <nav class="nav">
-    <div class="container">
-      <a href="index.html" class="nav__brand"><img src="img/logo-white.svg" alt="tofia analytics" height="32"></a>
-      <ul class="nav__links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="portfolio.html">Portfolio</a></li>
-        <li><a href="templates.html">Templates</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <div class="nav__lang">
-        <a class="nav__lang--active">EN</a>
-        <span>|</span>
-        <a href="de/index.html">DE</a>
+<header class="top">
+  <div class="wrap">
+    <a class="top__brand" href="index.html">tofia analytics</a>
+    <nav class="top__nav mono">
+      <a href="index.html#heute">Heute</a>
+      <a href="index.html#stufen">Stufen</a>
+      <a href="index.html#ablauf">Ablauf</a>
+      <a href="index.html#stack">Stack</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="contact.html">Kontakt</a>
+    </nav>
+    <span class="mono">Berlin · remote</span>
+  </div>
+</header>
+<section class="hero">
+  <div class="wrap">
+    <h1>Von fünf Systemen zu <span class="u">einer Zahl</span>, der alle trauen.</h1>
+    <div class="hero__row">
+      <p>Ich baue mittelständischen Unternehmen die Strecke, die dazwischen fehlt — und übergebe sie dokumentiert, getestet und ohne mich lauffähig.</p>
+      <div class="hero__cta">
+        <a class="btn" href="https://cal.com/tobias-lewen-nzmbl3/15min">Erstgespräch buchen</a>
+        <a class="btn btn--line" href="#stufen">Stufen und Preise</a>
       </div>
-      <button class="nav__burger" aria-label="Menu">&#9776;</button>
     </div>
-  </nav>
 
-  <!-- Hero -->
-  <section class="hero" style="padding: 100px 0 80px;">
-    <div class="container" style="text-align: center; max-width: 760px;">
-      <p class="hero__label">Data &amp; Web Consulting &middot; Berlin</p>
-      <h1 style="font-size: 3rem;">Websites that get you found.<br><span>Data that tells you what's working.</span></h1>
-      <p class="hero__sub" style="margin: 0 auto 32px; max-width: 560px;">tofia analytics delivers digital solutions for local businesses and growing companies. Websites that convert, dashboards that drive real decisions.</p>
-      <div class="hero__cta" style="justify-content: center;">
-        <a href="contact.html" class="btn btn--primary">Book a Free Call</a>
-        <a href="portfolio.html" class="btn btn--outline">See Our Work</a>
-      </div>
-      <p class="hero__reassure">Free 15-minute call. No pitch, just an honest conversation about what you need.</p>
+    <div class="scheme" style="margin-top:40px">
+      <svg viewBox="0 0 1000 250" role="img" aria-label="Schema einer Datenplattform: Quellsysteme laufen über Ingestion in ein Warehouse, werden mit dbt modelliert und enden in Reports.">
+        <text class="ncap" x="0" y="14">Quellen</text>
+        <text class="ncap" x="248" y="14">Ingestion</text>
+        <text class="ncap" x="448" y="14">Warehouse</text>
+        <text class="ncap" x="648" y="14">Modelle</text>
+        <text class="ncap" x="848" y="14">Auswertung</text>
+
+        <rect class="node" x="0" y="32" width="150" height="34"/>
+        <text class="ntext" x="14" y="54">ERP</text>
+        <rect class="node" x="0" y="78" width="150" height="34"/>
+        <text class="ntext" x="14" y="100">CRM</text>
+        <rect class="node" x="0" y="124" width="150" height="34"/>
+        <text class="ntext" x="14" y="146">Shop / Web</text>
+        <rect class="node" x="0" y="170" width="150" height="34"/>
+        <text class="ntext" x="14" y="192">Excel / CSV</text>
+
+        <path class="wire" d="M150 49 H200 Q218 49 218 72 V115"/>
+        <path class="wire" d="M150 95 H200 Q218 95 218 110 V115"/>
+        <path class="wire" d="M150 141 H200 Q218 141 218 126 V121"/>
+        <path class="wire" d="M150 187 H200 Q218 187 218 150 V121"/>
+        <path class="wire" d="M218 118 H248"/>
+
+        <rect class="node" x="248" y="96" width="150" height="46"/>
+        <text class="ntext" x="262" y="117">Pipelines</text>
+        <text class="ntext ntext--mute" x="262" y="133">geplant · überwacht</text>
+
+        <path class="wire" d="M398 119 H448"/>
+
+        <rect class="node node--fill" x="448" y="88" width="150" height="62"/>
+        <text class="ntext ntext--on" x="462" y="112">BigQuery</text>
+        <text class="ntext ntext--on" x="462" y="130">Fabric · Databricks</text>
+
+        <path class="wire" d="M598 119 H648"/>
+
+        <rect class="node" x="648" y="88" width="150" height="62"/>
+        <text class="ntext" x="662" y="112">dbt</text>
+        <text class="ntext ntext--mute" x="662" y="130">getestet</text>
+
+        <path class="wire" d="M798 119 H830 Q848 119 848 100 V84"/>
+        <path class="wire" d="M798 119 H830 Q848 119 848 119 V128"/>
+        <path class="wire" d="M798 119 H830 Q848 119 848 140 V156"/>
+
+        <rect class="node" x="848" y="50" width="140" height="34"/>
+        <text class="ntext" x="862" y="72">Power BI</text>
+        <rect class="node" x="848" y="102" width="140" height="34"/>
+        <text class="ntext" x="862" y="124">Kennzahlen</text>
+        <rect class="node" x="848" y="154" width="140" height="34"/>
+        <text class="ntext" x="862" y="176">Export / API</text>
+
+        <path class="wire wire--dash" d="M248 182 H820" opacity=".55"/>
+        <text class="ncap" x="248" y="202">Monitoring · Kosten · Zugriffe</text>
+      </svg>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Services: two tracks -->
-  <section class="section">
-    <div class="container">
-      <div class="section__header">
-        <span class="section__label">Services</span>
-        <h2>Two kinds of problems. One person who solves both.</h2>
-        <p>Whether you need to show up online or understand what your numbers are saying, there's a service for that.</p>
-      </div>
-      <div class="services-split">
+<section class="band band--alt" id="heute">
+  <div class="wrap">
+    <div class="band__head">
+      <p class="mono">Ausgangslage</p>
+      <h2>Vorher hält eine Kette aus Exporten alles zusammen.</h2>
+      <p>Das funktioniert, solange niemand krank wird und niemand nachfragt.</p>
+    </div>
+    <div class="compare">
+      <div class="compare__col">
+        <h3>Heute</h3>
+        <p>Jede Abteilung zieht sich ihre Daten selbst. Die Wahrheit entsteht einmal im Monat per Hand.</p>
+        <div class="scheme scheme--small">
+          <svg viewBox="0 0 440 220" role="img" aria-label="Schema des Ist-Zustands: vier Quellsysteme führen über manuelle Exporte in eine Excel-Datei und von dort in einen Report.">
+            <rect class="node node--mute" x="0" y="10" width="112" height="30"/>
+            <text class="ntext ntext--mute" x="12" y="30">ERP</text>
+            <rect class="node node--mute" x="0" y="60" width="112" height="30"/>
+            <text class="ntext ntext--mute" x="12" y="80">CRM</text>
+            <rect class="node node--mute" x="0" y="110" width="112" height="30"/>
+            <text class="ntext ntext--mute" x="12" y="130">Shop</text>
+            <rect class="node node--mute" x="0" y="160" width="112" height="30"/>
+            <text class="ntext ntext--mute" x="12" y="180">CSV</text>
 
-        <div class="service-track service-track--web">
-          <div class="service-track__eyebrow">For local businesses</div>
-          <h3>Get found. Get customers.</h3>
-          <p>A professional online presence that works while you focus on your business.</p>
-          <ul>
-            <li>Website design & build (fast, mobile-first)</li>
-            <li>Local SEO & Google Business Profile</li>
-            <li>Contact forms & lead capture</li>
-            <li>Ongoing maintenance & updates</li>
-          </ul>
+            <path class="wire wire--mute wire--dash" d="M112 25 L250 95"/>
+            <path class="wire wire--mute wire--dash" d="M112 75 L250 100"/>
+            <path class="wire wire--mute wire--dash" d="M112 125 L250 105"/>
+            <path class="wire wire--mute wire--dash" d="M112 175 L250 110"/>
+
+            <rect class="node node--mute" x="250" y="80" width="120" height="46"/>
+            <text class="ntext ntext--mute" x="262" y="100">Excel</text>
+            <text class="ntext ntext--mute" x="262" y="116">Handarbeit</text>
+
+            <path class="wire wire--mute wire--dash" d="M370 103 H420"/>
+            <rect class="node node--mute" x="420" y="88" width="18" height="30"/>
+            <text class="ncap" x="250" y="150">3 Tage im Monat · 1 Person</text>
+          </svg>
         </div>
+      </div>
+      <div class="compare__col compare__col--after">
+        <h3>Danach</h3>
+        <p>Quellen laufen automatisch ein, Kennzahlen sind an einer Stelle definiert, Fehler fallen vor dem Report auf.</p>
+        <div class="scheme scheme--small">
+          <svg viewBox="0 0 440 220" role="img" aria-label="Schema des Zielzustands: vier Quellsysteme laufen automatisch in eine Plattform und von dort in Auswertungen.">
+            <rect class="node" x="0" y="10" width="112" height="30"/>
+            <text class="ntext" x="12" y="30">ERP</text>
+            <rect class="node" x="0" y="60" width="112" height="30"/>
+            <text class="ntext" x="12" y="80">CRM</text>
+            <rect class="node" x="0" y="110" width="112" height="30"/>
+            <text class="ntext" x="12" y="130">Shop</text>
+            <rect class="node" x="0" y="160" width="112" height="30"/>
+            <text class="ntext" x="12" y="180">CSV</text>
 
-        <div class="service-track service-track--data">
-          <div class="service-track__eyebrow">For growing companies</div>
-          <h3>See what's working. Decide faster.</h3>
-          <p>From raw data to clear dashboards and reliable pipelines your team can trust.</p>
-          <ul>
-            <li>Power BI dashboards & DAX development</li>
-            <li>Data platforms (dbt, BigQuery, SQL)</li>
-            <li>KPI design & reporting automation</li>
-            <li>Data model design & clean-up</li>
-          </ul>
+            <path class="wire" d="M112 25 H180 Q196 25 196 60 V95"/>
+            <path class="wire" d="M112 75 H180 Q196 75 196 90 V95"/>
+            <path class="wire" d="M112 125 H180 Q196 125 196 110 V105"/>
+            <path class="wire" d="M112 175 H180 Q196 175 196 140 V105"/>
+            <path class="wire" d="M196 100 H250"/>
+
+            <rect class="node node--fill" x="250" y="76" width="120" height="50"/>
+            <text class="ntext ntext--on" x="262" y="97">Plattform</text>
+            <text class="ntext ntext--on" x="262" y="114">automatisch</text>
+
+            <path class="wire" d="M370 101 H400 Q418 101 418 84 V74"/>
+            <path class="wire" d="M370 101 H400 Q418 101 418 112 V126"/>
+            <rect class="node" x="412" y="48" width="26" height="26"/>
+            <rect class="node" x="412" y="126" width="26" height="26"/>
+            <text class="ncap" x="250" y="150">täglich · überwacht</text>
+          </svg>
         </div>
-
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- About -->
-  <section class="section section--alt">
-    <div class="container">
-      <div class="about-split">
+<section class="band" id="stufen">
+  <div class="wrap">
+    <div class="band__head">
+      <p class="mono">Zusammenarbeit</p>
+      <h2>Drei Stufen auf derselben Strecke.</h2>
+      <p>Jede Stufe setzt dort an, wo die vorige aufgehört hat. Niemand fängt mit dem großen Projekt an.</p>
+    </div>
 
-        <div class="about__photo">
-          <!-- Replace with your headshot -->
-          <img src="img/tobias.jpg" alt="Tobias Lewen">
-        </div>
+    <article class="stage">
+      <div class="scheme scheme--small">
+        <svg viewBox="0 0 400 110" role="img" aria-label="Stufe 1: die gesamte Strecke wird untersucht, nichts wird gebaut.">
+          <rect class="node node--mute" x="0" y="34" width="70" height="34"/>
+          <path class="wire wire--mute" d="M70 51 H100"/>
+          <rect class="node node--mute" x="100" y="34" width="70" height="34"/>
+          <path class="wire wire--mute" d="M170 51 H200"/>
+          <rect class="node node--mute" x="200" y="34" width="70" height="34"/>
+          <path class="wire wire--mute" d="M270 51 H300"/>
+          <rect class="node node--mute" x="300" y="34" width="70" height="34"/>
+          <path class="wire wire--dash" d="M0 20 H370 M0 82 H370"/>
+          <text class="ncap" x="0" y="104">gesamte Strecke · Befund statt Bau</text>
+        </svg>
+      </div>
+      <div>
+        <p class="stage__n">Stufe 01</p>
+        <h3>Audit</h3>
+        <p class="stage__price">2.900 €</p>
+        <p class="stage__meta">1 Woche · Festpreis · Dokument + Präsentation</p>
+      </div>
+      <div>
+        <ul>
+          <li>Ist-Architektur als Diagramm</li>
+          <li>Kostenanalyse der Cloud-Rechnung mit Einsparposten</li>
+          <li>Priorisierte Risikoliste</li>
+          <li>Roadmap für 90 Tage</li>
+        </ul>
+        <p class="stage__note">Folgt ein Projekt, wird das Honorar verrechnet.</p>
+      </div>
+    </article>
 
-        <div class="about__text">
-          <span class="section__label">About</span>
-          <h2>One person.<br>End to end.</h2>
+    <article class="stage">
+      <div class="scheme scheme--small">
+        <svg viewBox="0 0 400 110" role="img" aria-label="Stufe 2: die Strecke wird gebaut, beginnend mit einem Use Case.">
+          <rect class="node" x="0" y="34" width="70" height="34"/>
+          <path class="wire" d="M70 51 H100"/>
+          <rect class="node node--fill" x="100" y="34" width="70" height="34"/>
+          <path class="wire" d="M170 51 H200"/>
+          <rect class="node node--fill" x="200" y="34" width="70" height="34"/>
+          <path class="wire" d="M270 51 H300"/>
+          <rect class="node" x="300" y="34" width="70" height="34"/>
+          <text class="ncap" x="0" y="104">Use Case 1 live · Fundament steht</text>
+        </svg>
+      </div>
+      <div>
+        <p class="stage__n">Stufe 02</p>
+        <h3>Plattform</h3>
+        <p class="stage__price">25.000 – 60.000 €</p>
+        <p class="stage__meta">6–10 Wochen · Festpreis steht nach dem Audit</p>
+      </div>
+      <div>
+        <ul>
+          <li>Quellsysteme angebunden</li>
+          <li>Warehouse oder Lakehouse: BigQuery, Fabric, Databricks</li>
+          <li>dbt-Modelle, getestet und dokumentiert</li>
+          <li>Deployment, Monitoring, Alerts</li>
+          <li>Übergabe mit Schulung</li>
+        </ul>
+        <p class="stage__note">Start mit dem Use Case, der am meisten weh tut. Jeder weitere kommt auf dasselbe Fundament.</p>
+      </div>
+    </article>
 
-          <p>I'm Tobias. I've been working in data and BI for a few years, mostly for mid-size companies. At some point I started getting asked to help with websites and online presence too, so I figured I'd just do both.</p>
+    <article class="stage">
+      <div class="scheme scheme--small">
+        <svg viewBox="0 0 400 110" role="img" aria-label="Stufe 3: die fertige Strecke wird laufend überwacht und erweitert.">
+          <rect class="node" x="0" y="34" width="70" height="34"/>
+          <path class="wire" d="M70 51 H100"/>
+          <rect class="node" x="100" y="34" width="70" height="34"/>
+          <path class="wire" d="M170 51 H200"/>
+          <rect class="node" x="200" y="34" width="70" height="34"/>
+          <path class="wire" d="M270 51 H300"/>
+          <rect class="node" x="300" y="34" width="70" height="34"/>
+          <path class="wire wire--dash" d="M0 86 H370"/>
+          <circle cx="35" cy="86" r="4" fill="var(--blue)"/>
+          <circle cx="135" cy="86" r="4" fill="var(--blue)"/>
+          <circle cx="235" cy="86" r="4" fill="var(--blue)"/>
+          <circle cx="335" cy="86" r="4" fill="var(--blue)"/>
+          <text class="ncap" x="0" y="106">laufend überwacht · erweitert</text>
+        </svg>
+      </div>
+      <div>
+        <p class="stage__n">Stufe 03</p>
+        <h3>Care</h3>
+        <p class="stage__price">ab 1.500 € / Monat</p>
+        <p class="stage__meta">laufend · Mindestlaufzeit 6 Monate</p>
+      </div>
+      <div>
+        <ul>
+          <li>Monitoring und Störungsbehebung</li>
+          <li>Laufende Kostenoptimierung</li>
+          <li>Neue Quellen und Kennzahlen</li>
+          <li>Zugesicherte Reaktionszeit</li>
+        </ul>
+        <p class="stage__note">Eine Plattform ohne Pflege verfällt. Das ist kein Zusatzprodukt, sondern der Normalfall.</p>
+      </div>
+    </article>
+  </div>
+</section>
 
-          <p>With tofia analytics you work directly with me. No middlemen, no account managers. I do the work, I answer your messages, and I'll tell you straight if something isn't worth doing.</p>
-
-          <p>Based in Berlin, happy to work remotely anywhere in Europe.</p>
-
-          <a href="contact.html" class="btn btn--primary" style="margin-top: 12px;">Let's talk</a>
-        </div>
-
+<section class="band band--alt" id="ablauf">
+  <div class="wrap">
+    <div class="band__head">
+      <p class="mono">Ablauf</p>
+      <h2>Vier Schritte, feste Preise.</h2>
+    </div>
+    <div class="flow">
+      <div class="flowstep">
+        <p class="flowstep__n">01</p>
+        <h3>Erstgespräch</h3>
+        <p>15 Minuten. Ich sage Ihnen ehrlich, ob ich helfen kann — und wenn nicht, wo Sie besser suchen.</p>
+      </div>
+      <div class="flowstep">
+        <p class="flowstep__n">02</p>
+        <h3>Audit</h3>
+        <p>Eine Woche in Ihren Systemen. Befund, Risiken, Roadmap. Danach entscheiden Sie frei.</p>
+      </div>
+      <div class="flowstep">
+        <p class="flowstep__n">03</p>
+        <h3>Umsetzung</h3>
+        <p>Zweiwöchige Abschnitte mit festem Umfang. Nach jedem läuft etwas, das Sie anfassen können.</p>
+      </div>
+      <div class="flowstep">
+        <p class="flowstep__n">04</p>
+        <h3>Betrieb</h3>
+        <p>Übergabe mit Dokumentation und Schulung. Danach Ihr Team allein oder Care.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section class="section section--alt" style="text-align: center;">
-    <div class="container">
-      <h2>Not sure where to start?</h2>
-      <p style="color: var(--text-light); margin: 12px 0 28px; max-width: 480px; margin-left: auto; margin-right: auto;">Tell me what you're trying to achieve. I'll give you a straight answer about whether I can help, and if not, point you in the right direction.</p>
-      <a href="contact.html" class="btn btn--primary">Start the conversation</a>
+<section class="band" id="stack">
+  <div class="wrap">
+    <div class="band__head">
+      <p class="mono">Technik</p>
+      <h2>Womit gebaut wird.</h2>
+      <p>Was zu Ihrer Umgebung passt, nicht was ich gerade verkaufen möchte.</p>
     </div>
-  </section>
+    <table class="stacktable">
+      <tbody>
+        <tr><th scope="row">Plattform</th><td>BigQuery · Microsoft Fabric · Databricks · Azure Synapse</td></tr>
+        <tr><th scope="row">Transformation</th><td>dbt · Dataform · SQL · Python</td></tr>
+        <tr><th scope="row">Orchestrierung</th><td>Airflow · Terraform · CI/CD</td></tr>
+        <tr><th scope="row">Tracking</th><td>Snowplow · Event-Pipelines</td></tr>
+        <tr><th scope="row">Auswertung</th><td>Power BI</td></tr>
+        <tr><th scope="row">Zertifikate</th><td>Azure Data Engineer · Fabric Data Engineer · Power BI Data Analyst</td></tr>
+      </tbody>
+    </table>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__links">
-        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
-        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
+    <div style="margin-top:56px" id="praxis">
+      <p class="mono" style="margin-bottom:18px">Aus der Praxis · im Auftrag eines Dienstleisters, anonymisiert</p>
+      <div class="work">
+        <div class="work__col">
+          <h4>Ausgangslage</h4>
+          <p>Sieben Quellsysteme, ein Monatsreporting per Hand. Eine Person war drei Tage im Monat damit beschäftigt.</p>
+        </div>
+        <div class="work__col">
+          <h4>Vorgehen</h4>
+          <p>Quellen automatisch angebunden, Kennzahlen an einer Stelle definiert, Reporting automatisiert. Erster Use Case, danach Gesellschaft für Gesellschaft.</p>
+        </div>
+        <div class="work__col">
+          <h4>Ergebnis</h4>
+          <p>Reporting von drei Tagen auf eine Stunde.</p>
+        </div>
       </div>
-      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
     </div>
-  </footer>
+  </div>
+</section>
 
+<section class="end" id="kontakt">
+  <div class="wrap">
+    <div>
+      <p class="mono">Erster Schritt</p>
+      <h2 style="margin-top:14px">Sprechen wir 15 Minuten über Ihre Daten.</h2>
+      <p>Sie schildern, wo es hakt. Ich sage Ihnen ehrlich, ob ich helfen kann. Danach entscheiden Sie, ob ein Audit sinnvoll ist.</p>
+    </div>
+    <div class="end__cta">
+      <a class="btn btn--invert" href="https://cal.com/tobias-lewen-nzmbl3/15min">Erstgespräch buchen</a>
+      <a class="btn btn--ghostLight" href="mailto:tobias@tofia-analytics.com">tobias@tofia-analytics.com</a>
+      <p class="mono" style="margin:0">Unverbindlich · kostenlos</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>© 2026 tofia analytics · Berlin</div>
+    <div class="foot__links">
+      <a href="https://www.linkedin.com/in/tobiaslewen/">LinkedIn</a>
+      <a href="https://github.com/tobial93">GitHub</a>
+      <a href="contact.html">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
