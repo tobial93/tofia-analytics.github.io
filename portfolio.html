@@ -1,133 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - tofia analytics</title>
-  <meta name="description" content="Projects that turned data into decisions. Power BI dashboards, data platforms, websites, and SEO.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Portfolio | tofia analytics</title>
+<meta name="description" content="Ausgewählte Datenplattformen und Pipelines: Architektur, Stack und Ergebnisse.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-
-  <nav class="nav">
-    <div class="container">
-      <a href="index.html" class="nav__brand"><img src="img/logo-white.svg" alt="tofia analytics" height="32"></a>
-      <ul class="nav__links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="portfolio.html" class="active">Portfolio</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <button class="nav__burger" aria-label="Menu">&#9776;</button>
+<header class="top">
+  <div class="wrap">
+    <a class="top__brand" href="index.html"><img src="img/dot-grid.svg" alt="" width="40" height="25">tofia analytics</a>
+    <nav class="top__nav mono">
+      <a href="index.html#heute">Heute</a>
+      <a href="index.html#weg">Weg</a>
+      <a href="index.html#praxis">Praxis</a>
+      <a href="index.html#stack">Stack</a>
+      <a href="portfolio.html" aria-current="page">Portfolio</a>
+      <a href="contact.html">Kontakt</a>
+    </nav>
+  </div>
+</header>
+<main class="page pf">
+  <div class="wrap wrap--wide">
+    <p class="mono">Portfolio</p>
+    <h1>Ausgewählte Projekte.</h1>
+    <p class="pf__intro">Drei Plattformen, an denen sich zeigt, wie ich arbeite: sauber gebaut, dokumentiert und so übergeben, dass Ihr Team sie versteht. Die Fallstudien sind auf Englisch.</p>
+    <div class="pgrid">
+    <article class="pcard">
+      <a class="pcard__img" href="case-studies/nyc-taxi-lakehouse.html"><img src="img/nyc-taxi-architecture.png" alt="Architektur: NYC Taxi Analytics Lakehouse" loading="lazy"></a>
+      <div class="pcard__body">
+        <div class="techs"><span class="tech">Airflow</span><span class="tech">Databricks</span><span class="tech">Delta Lake</span><span class="tech">Azure</span></div>
+        <h2>NYC Taxi Analytics Lakehouse</h2>
+        <p>Batch-Pipeline auf Azure: Airflow lädt monatlich den öffentlichen NYC-TLC-Datensatz, Databricks transformiert ihn in Bronze-, Silver- und Gold-Schichten auf Delta Lake.</p>
+        <div class="pcard__links"><a href="case-studies/nyc-taxi-lakehouse.html">Fallstudie lesen</a><a href="https://github.com/tobial93/nyc-taxi-lakehouse" target="_blank" rel="noopener noreferrer">Code auf GitHub</a></div>
+      </div>
+    </article>
+    <article class="pcard">
+      <a class="pcard__img" href="case-studies/streaming-pipeline.html"><img src="img/streaming-pipeline-architecture.png" alt="Architektur: Echtzeit-Event-Pipeline für E-Commerce" loading="lazy"></a>
+      <div class="pcard__body">
+        <div class="techs"><span class="tech">Pub/Sub</span><span class="tech">Cloud Run</span><span class="tech">BigQuery</span><span class="tech">dbt</span></div>
+        <h2>Echtzeit-Event-Pipeline für E-Commerce</h2>
+        <p>Streaming-Pipeline auf GCP: Clickstream-Events laufen über Pub/Sub und Cloud Run nach BigQuery, dbt rechnet daraus Funnel und Sitzungs-Conversion.</p>
+        <div class="pcard__links"><a href="case-studies/streaming-pipeline.html">Fallstudie lesen</a><a href="https://github.com/tobial93/streaming-ecommerce-pipeline" target="_blank" rel="noopener noreferrer">Code auf GitHub</a></div>
+      </div>
+    </article>
+    <article class="pcard">
+      <a class="pcard__img" href="case-studies/subscription-analytics.html"><img src="img/dwh-architecture.jpg" alt="Architektur: Subscription-Analytics-Plattform" loading="lazy"></a>
+      <div class="pcard__body">
+        <div class="techs"><span class="tech">BigQuery</span><span class="tech">dbt</span><span class="tech">GCP</span><span class="tech">Terraform</span></div>
+        <h2>Subscription-Analytics-Plattform</h2>
+        <p>Komplettes Data Warehouse für einen regionalen Nachrichtenverlag: drei Quellsysteme im Sternschema, Multi-Touch-Attribution, rund 240 Mio. Tracking-Events pro Tag.</p>
+        <div class="pcard__links"><a href="case-studies/subscription-analytics.html">Fallstudie lesen</a></div>
+      </div>
+    </article>
     </div>
-  </nav>
-
-  <section class="section">
-    <div class="container">
-      <div class="section__header">
-        <span class="section__label">Portfolio</span>
-        <h2>Projects that turned data into decisions</h2>
-        <p>A selection of platforms, websites, and engineering work delivered for real clients.</p>
-      </div>
-
-      <!-- Filters -->
-      <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="data">Data Platforms</button>
-        <button class="filter-btn" data-filter="web">Web Development</button>
-      </div>
-
-      <!-- Project grid -->
-      <div class="projects">
-
-        <!-- Project: consultancy agency website rebuild -->
-
-
-        <!-- Project: NYC Taxi Analytics Lakehouse -->
-        <div class="project-card" data-category="data">
-          <img src="img/nyc-taxi-architecture.png" alt="NYC Taxi Analytics Lakehouse architecture" class="project-card__img">
-          <div class="project-card__body">
-            <div class="project-card__tags">
-              <span class="tag tag--data">Airflow</span>
-              <span class="tag tag--data">Databricks</span>
-              <span class="tag tag--data">Delta Lake</span>
-              <span class="tag tag--data">Azure</span>
-            </div>
-            <h3>NYC Taxi Analytics Lakehouse</h3>
-            <p>Batch medallion pipeline on Azure: Airflow orchestrates monthly ingestion from the NYC TLC public dataset into ADLS Gen2, Databricks PySpark jobs transform through Bronze, Silver, and Gold Delta Lake layers.</p>
-            <div class="project-card__links">
-              <a href="case-studies/nyc-taxi-lakehouse.html">Case Study &rarr;</a>
-              <a href="https://github.com/tobial93/nyc-taxi-lakehouse" target="_blank">GitHub &rarr;</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project: Real-time E-commerce Event Pipeline -->
-        <div class="project-card" data-category="data">
-          <img src="img/streaming-pipeline-architecture.png" alt="Real-time E-commerce Event Pipeline architecture" class="project-card__img">
-          <div class="project-card__body">
-            <div class="project-card__tags">
-              <span class="tag tag--data">Pub/Sub</span>
-              <span class="tag tag--data">Cloud Run</span>
-              <span class="tag tag--data">BigQuery</span>
-              <span class="tag tag--data">dbt</span>
-            </div>
-            <h3>Real-time E-commerce Event Pipeline</h3>
-            <p>Streaming clickstream pipeline on GCP: synthetic events published to Pub/Sub, validated and written to BigQuery by a Cloud Run consumer, aggregated by dbt into funnel and session-conversion models.</p>
-            <div class="project-card__links">
-              <a href="case-studies/streaming-pipeline.html">Case Study &rarr;</a>
-              <a href="https://github.com/tobial93/streaming-ecommerce-pipeline" target="_blank">GitHub &rarr;</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project: Subscription Analytics Platform -->
-        <div class="project-card" data-category="data">
-          <img src="img/dwh-architecture.jpg" alt="Subscription Analytics DWH architecture" class="project-card__img">
-          <div class="project-card__body">
-            <div class="project-card__tags">
-              <span class="tag tag--data">BigQuery</span>
-              <span class="tag tag--data">dbt</span>
-              <span class="tag tag--data">GCP</span>
-              <span class="tag tag--data">Terraform</span>
-            </div>
-            <h3>Subscription Analytics Platform</h3>
-            <p>End-to-end data warehouse for a regional news publisher: three source systems joined in a star schema, multi-touch attribution, ~240M daily tracking events.</p>
-            <div class="project-card__links">
-              <a href="case-studies/subscription-analytics.html">Case Study &rarr;</a>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+    <div class="contactbox">
+      <a class="btn" href="https://cal.com/tobias-lewen-nzmbl3/15min">Erstgespräch buchen</a>
     </div>
-  </section>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__links">
-        <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank">LinkedIn</a>
-        <a href="https://github.com/tobial93" target="_blank">GitHub</a>
-      </div>
-      <p>&copy; 2026 tofia analytics. All rights reserved.</p>
+  </div>
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <div>© 2026 tofia analytics · Berlin</div>
+    <div class="foot__links">
+      <a href="https://www.linkedin.com/in/tobiaslewen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/tobial93" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="contact.html">Kontakt</a>
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
     </div>
-  </footer>
-
-  <script>
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        document.querySelectorAll('.project-card').forEach(card => {
-          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-        });
-      });
-    });
-  </script>
-
+  </div>
+</footer>
 </body>
 </html>

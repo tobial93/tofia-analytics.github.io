@@ -255,3 +255,26 @@
   .dotgrid--end circle { fill: rgba(255,255,255,.28); }
   .dotgrid--end circle.a { fill: #FFFFFF; }
   @media (max-width: 880px) { .dotgrid--end { display: none; } }
+
+  /* Portfolio und Fallstudien */
+  .page .wrap.wrap--wide { max-width: 1080px; }
+  .pf__intro { max-width: 60ch; color: var(--text-muted); font-size: 18px; margin-bottom: 40px; }
+  .pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px; margin-bottom: 40px; }
+  .pcard { border: 1px solid var(--rule); background: var(--paper); display: flex; flex-direction: column; min-width: 0; }
+  .pcard__img { display: block; background: var(--paper-alt); border-bottom: 1px solid var(--rule); aspect-ratio: 16 / 10; overflow: hidden; }
+  .pcard__img img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 10px; }
+  .pcard__body { padding: 22px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .pcard h2 { font-size: 21px; margin: 0; }
+  .pcard p { color: var(--text-muted); font-size: 15px; }
+  .pcard__links { margin-top: auto; padding-top: 6px; display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+  .page .pcard__links a { color: var(--blue); text-decoration: none; }
+  .page .pcard__links a:hover { text-decoration: underline; }
+  .cs { --text-light: var(--text-muted); --bg-light: var(--paper-alt); --primary: var(--blue); }
+  .cs .wrap { max-width: 860px; }
+  .cs h1 { font-size: clamp(30px, 5vw, 48px); }
+  .cs h3 { font-size: 17px; font-family: var(--display); margin: 26px 0 8px; }
+  .cs .case-study__meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 26px; }
+  .cs .case-study__meta span { border: 1px solid var(--rule); padding: 5px 10px; font-family: var(--mono); font-size: 12.5px; }
+  .cs code { background: var(--paper-alt); padding: 2px 6px; font-family: var(--mono); font-size: .85em; }
+  .cs img { max-width: 100%; height: auto; }
+  .cs table { display: block; overflow-x: auto; }
