@@ -243,3 +243,15 @@
   .case__facts dt { font-family: var(--display); font-size: 34px; font-weight: 700; letter-spacing: -0.04em; color: var(--blue); line-height: 1; }
   .case__facts dd { margin: 8px 0 0; font-size: 14.5px; color: var(--text-muted); }
   @media (prefers-reduced-motion: reduce) { .js .bar__fill { width: var(--w); } .js .flowwire { stroke-dashoffset: 0; } }
+
+  /* Punktraster, Erkennungszeichen aus der LinkedIn-Marke */
+  .dotgrid circle { fill: #CBD5E1; }
+  .dotgrid circle.a { fill: var(--blue); }
+  .hero .wrap { position: relative; }
+  .dotgrid--hero { position: absolute; top: 64px; right: max(20px, env(safe-area-inset-right, 0px)); }
+  @media (max-width: 900px) { .dotgrid--hero { display: none; } }
+  .end .wrap { position: relative; }
+  .dotgrid--end { position: absolute; top: 40px; right: max(20px, env(safe-area-inset-right, 0px)); }
+  .dotgrid--end circle { fill: rgba(255,255,255,.28); }
+  .dotgrid--end circle.a { fill: #FFFFFF; }
+  @media (max-width: 880px) { .dotgrid--end { display: none; } }
