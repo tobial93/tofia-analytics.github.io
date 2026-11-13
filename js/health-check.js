@@ -182,6 +182,14 @@
     box.appendChild(head);
     box.appendChild(el("p", "hc__lead", level.text));
 
+    // Kritische Bereiche (0 Punkte) zaehlen immer, auch bei hoher Gesamtstufe
+    var critical = AREAS.filter(function (a, i) { return answers[i] === 0; });
+    if (critical.length && total > 8) {
+      var warn = el("p", "hc__warn");
+      warn.textContent = "Trotz guter Gesamtstufe gibt es " + (critical.length === 1 ? "einen kritischen Bereich" : "kritische Bereiche") + ": " + critical.map(function (a) { return a.name; }).join(", ") + ". Das sollten Sie zuerst angehen.";
+      box.appendChild(warn);
+    }
+
     // Fuenf Balken
     var bars = el("div", "hc__bars");
     AREAS.forEach(function (a, i) {
@@ -223,7 +231,9 @@
     rec.appendChild(el("h2", "", "Empfohlener nächster Schritt"));
     var recText = total <= 8
       ? "Bei Ihrer Ausgangslage lohnt sich zuerst ein Audit (Verstehen, 2.900 €). Es zeigt in kurzer Zeit, was wirklich los ist, und liefert einen Plan mit Prioritäten."
-      : "Sprechen wir 15 Minuten darüber, welche Lücken sich für Sie lohnen, anzugehen. Ein Audit ist optional.";
+      : critical.length
+        ? "Ein kritischer Bereich kann das Ganze gefährden, auch wenn der Rest gut aufgestellt ist. Ein Audit (Verstehen, 2.900 €) klärt gezielt, wie groß das Risiko ist und was zu tun ist."
+        : "Sprechen wir 15 Minuten darüber, welche Lücken sich für Sie lohnen, anzugehen. Ein Audit ist optional.";
     rec.appendChild(el("p", "", recText));
     var notes = summaryText(total, level);
     var calUrl = CAL + "?notes=" + encodeURIComponent(notes);

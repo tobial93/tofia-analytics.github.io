@@ -320,3 +320,4 @@
   .hc__fine { font-size: 13px; color: var(--text-muted); }
   .hc-teaser { display: grid; grid-template-columns: minmax(0, 1.3fr) auto; gap: 30px; align-items: center; }
   @media (max-width: 760px) { .hc-teaser { grid-template-columns: 1fr; } }
+  .hc__warn { border-left: 3px solid #C0392B; background: #FBEFEC; padding: 12px 16px; margin: 0 0 22px; max-width: 62ch; }
