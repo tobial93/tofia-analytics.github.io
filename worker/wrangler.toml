@@ -1,0 +1,18 @@
+# Cloudflare Worker fuer die Stufe 2 des Health Checks.
+# Die Empfaenger-Adresse steht NICHT in dieser Datei (das Repo ist oeffentlich),
+# sondern wird als Secret gesetzt: npx wrangler secret put TO_ADDRESS
+name = "tofia-health-check"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# Eigene Adresse fuer den Worker (Domain muss in deinem Cloudflare-Konto liegen)
+routes = [{ pattern = "api.tofia-analytics.com", custom_domain = true }]
+
+[vars]
+FROM_ADDRESS = "noreply@tofia-analytics.com"
+ALLOWED_ORIGINS = "https://tofia-analytics.com,https://www.tofia-analytics.com"
+
+# Mail-Versand (Cloudflare Email Service)
+[[send_email]]
+name = "EMAIL"
+remote = true

@@ -87,7 +87,31 @@
   var CAL = "https://cal.com/tobias-lewen-nzmbl3/15min";
   var MAIL = "tobias@tofia-analytics.com";
 
+  // Adresse des Workers fuer Stufe 2. Leer lassen, solange der Worker nicht eingerichtet ist:
+  // dann bleibt der Check bei Stufe 1. Beispiel: "https://api.tofia-analytics.com/health-check"
+  var ENDPOINT = "";
+
+  // Vertiefende Fragen (Stufe 2), je eine pro Bereich in derselben Reihenfolge wie AREAS
+  var DEEP = [
+    { q: "Wie viele Ihrer Quellsysteme sind automatisch angebunden?", a: ["Keines.", "Weniger als die Hälfte.", "Die meisten.", "Alle."] },
+    { q: "Sind Ihre wichtigsten Kennzahlen schriftlich definiert, und wird geprüft, ob die Zahlen stimmen?", a: ["Nein, es gibt keine Definitionen.", "Teilweise definiert, aber nicht geprüft.", "Definiert, geprüft wird nur stichprobenartig.", "Definiert und automatisch geprüft."] },
+    { q: "Werden Ihre Berichte tatsächlich für Entscheidungen genutzt?", a: ["Kaum. Viele Berichte werden nicht gelesen.", "Manche, aber nicht regelmäßig.", "Regelmäßig in einzelnen Teams.", "Regelmäßig in allen relevanten Bereichen."] },
+    { q: "Könnte sich ein neuer Kollege mit Ihrer Dokumentation in einer Woche einarbeiten?", a: ["Es gibt keine Dokumentation.", "Nur Bruchstücke.", "Grundlegend ja, mit Lücken.", "Ja, vollständig."] },
+    { q: "Wissen Sie, was Ihre Datenplattform monatlich kostet, und können Sie die Kosten zuordnen?", a: ["Nein.", "Grob, aber nicht zuordenbar.", "Der Gesamtbetrag ist bekannt, die Zuordnung nur teilweise.", "Ja, nach Bereichen oder Projekten nachvollziehbar."] }
+  ];
+
+  var OPTIONS = {
+    branche: ["Handel und E-Commerce", "Industrie", "Medien und Verlage", "Dienstleistung", "Finanzen", "Sonstiges"],
+    groesse: ["unter 50", "50 bis 250", "250 bis 1.000", "über 1.000"],
+    systeme: ["ERP", "CRM", "Shop", "Tracking und Web-Analytics", "Cloud-Warehouse", "BI-Tool (z. B. Power BI)"],
+    entscheider: ["Geschäftsführung", "IT-Leitung", "Fachabteilung", "Noch unklar"],
+    zeitrahmen: ["Innerhalb von 3 Monaten", "Innerhalb eines Jahres", "Noch kein Zeitplan"],
+    budget: ["Ja", "Noch nicht", "Weiß ich nicht"]
+  };
+
   var answers = [];
+  var deep = [];
+  var ctx = null;
   var step = 0;
   var root = document.getElementById("hc");
   if (!root) return;
@@ -99,8 +123,10 @@
     return e;
   }
   function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
-  function tier(score) { return score <= 1 ? "low" : (score === 2 ? "mid" : "high"); }
-  function tierLabel(score) { return score <= 1 ? "Handlungsbedarf" : (score === 2 ? "Lücken" : "Stabil"); }
+  // Mit Stufe 2 zaehlt der Mittelwert aus beiden Antworten (0 bis 3 in halben Schritten)
+  function areaScore(i) { return deep.length === AREAS.length ? (answers[i] + deep[i]) / 2 : answers[i]; }
+  function tier(score) { return score < 1.5 ? "low" : (score < 2.5 ? "mid" : "high"); }
+  function tierLabel(score) { return score < 1.5 ? "Handlungsbedarf" : (score < 2.5 ? "Lücken" : "Stabil"); }
 
   function renderIntro() {
     clear(root);
@@ -113,7 +139,7 @@
     box.appendChild(ul);
     var b = el("button", "btn", "Check starten");
     b.type = "button";
-    b.addEventListener("click", function () { step = 0; answers = []; renderQuestion(); });
+    b.addEventListener("click", function () { step = 0; answers = []; deep = []; ctx = null; renderQuestion(); });
     box.appendChild(b);
     root.appendChild(box);
   }
@@ -163,27 +189,30 @@
     if (first) first.focus({ preventScroll: true });
   }
 
+  function fmt(n) { return String(n).replace(".", ","); }
+
   function summaryText(total, level) {
-    var lines = ["Health Check tofia analytics", "Gesamtstufe: " + level.name + " (" + total + " von 15 Punkten)", ""];
-    AREAS.forEach(function (a, i) { lines.push(a.name + ": " + answers[i] + " von 3 (" + tierLabel(answers[i]) + ")"); });
+    var lines = ["Health Check tofia analytics", "Gesamtstufe: " + level.name + " (" + fmt(total) + " von 15 Punkten)", ""];
+    AREAS.forEach(function (a, i) { var s = areaScore(i); lines.push(a.name + ": " + fmt(s) + " von 3 (" + tierLabel(s) + ")"); });
     return lines.join("\n");
   }
 
   function renderResult() {
     clear(root);
-    var total = answers.reduce(function (s, v) { return s + v; }, 0);
+    var detailed = deep.length === AREAS.length;
+    var total = AREAS.reduce(function (s, a, i) { return s + areaScore(i); }, 0);
     var level = LEVELS.filter(function (l) { return total <= l.max; })[0];
     var box = el("div", "hc__card hc__card--wide");
 
-    box.appendChild(el("p", "mono", "Ihr Ergebnis"));
+    box.appendChild(el("p", "mono", detailed ? "Ihr genauer Report" : "Ihr Ergebnis"));
     var head = el("div", "hc__head");
     head.appendChild(el("h1", "", level.name));
-    head.appendChild(el("p", "hc__score", total + " von 15 Punkten"));
+    head.appendChild(el("p", "hc__score", fmt(total) + " von 15 Punkten"));
     box.appendChild(head);
     box.appendChild(el("p", "hc__lead", level.text));
 
     // Kritische Bereiche (0 Punkte) zaehlen immer, auch bei hoher Gesamtstufe
-    var critical = AREAS.filter(function (a, i) { return answers[i] === 0; });
+    var critical = AREAS.filter(function (a, i) { return areaScore(i) < 1; });
     if (critical.length && total > 8) {
       var warn = el("p", "hc__warn");
       warn.textContent = "Trotz guter Gesamtstufe gibt es " + (critical.length === 1 ? "einen kritischen Bereich" : "kritische Bereiche") + ": " + critical.map(function (a) { return a.name; }).join(", ") + ". Das sollten Sie zuerst angehen.";
@@ -193,13 +222,13 @@
     // Fuenf Balken
     var bars = el("div", "hc__bars");
     AREAS.forEach(function (a, i) {
-      var s = answers[i];
+      var s = areaScore(i);
       var row = el("div", "hc__bar hc__bar--" + tier(s));
       row.appendChild(el("span", "hc__bar__name", a.name));
       var seg = el("span", "hc__bar__seg");
       seg.setAttribute("role", "img");
-      seg.setAttribute("aria-label", s + " von 3 Punkten");
-      for (var k = 0; k < 3; k++) seg.appendChild(el("i", k < s ? "on" : ""));
+      seg.setAttribute("aria-label", fmt(s) + " von 3 Punkten");
+      for (var k = 0; k < 3; k++) seg.appendChild(el("i", s >= k + 1 ? "on" : (s >= k + 0.5 ? "half" : "")));
       row.appendChild(seg);
       row.appendChild(el("span", "hc__bar__label", tierLabel(s)));
       bars.appendChild(row);
@@ -207,9 +236,9 @@
     box.appendChild(bars);
 
     // Hebel: schwaechste Bereiche zuerst
-    var order = AREAS.map(function (a, i) { return { a: a, s: answers[i], i: i }; })
+    var order = AREAS.map(function (a, i) { return { a: a, s: areaScore(i), i: i }; })
       .sort(function (x, y) { return x.s - y.s || x.i - y.i; });
-    var weak = order.filter(function (o) { return o.s <= 2; }).slice(0, 3);
+    var weak = order.filter(function (o) { return o.s < 2.5; }).slice(0, 3);
 
     box.appendChild(el("h2", "", weak.length ? "Wo ich zuerst ansetzen würde" : "Ihre Lage"));
     if (!weak.length) {
@@ -237,6 +266,10 @@
     rec.appendChild(el("p", "", recText));
     var notes = summaryText(total, level);
     var calUrl = CAL + "?notes=" + encodeURIComponent(notes);
+    if (detailed && ctx) {
+      if (ctx.name) calUrl += "&name=" + encodeURIComponent(ctx.name);
+      if (ctx.email) calUrl += "&email=" + encodeURIComponent(ctx.email);
+    }
     var actions = el("div", "hc__actions");
     var cal = el("a", "btn", "Erstgespräch buchen");
     cal.href = calUrl; cal.target = "_blank"; cal.rel = "noopener noreferrer";
@@ -247,14 +280,194 @@
     rec.appendChild(el("p", "hc__fine", "Beim Buchen wird das Ergebnis in das Notizfeld des Termins übernommen. Sie können es dort vor dem Absenden ändern oder löschen."));
     box.appendChild(rec);
 
+    if (!detailed && ENDPOINT) {
+      var up = el("div", "hc__upsell");
+      up.appendChild(el("h2", "", "Genauer Report"));
+      up.appendChild(el("p", "", "Mit fünf vertiefenden Fragen und ein paar Angaben zu Ihrer Situation wird die Einschätzung genauer, und Sie erhalten einen Report mit konkreten Prioritäten. Dafür brauche ich Ihre E-Mail-Adresse. Dauer: etwa zwei Minuten."));
+      var upb = el("button", "btn", "Genaueren Report anfordern");
+      upb.type = "button";
+      upb.addEventListener("click", function () { step = 0; deep = []; renderDeep(); window.scrollTo(0, 0); });
+      up.appendChild(upb);
+      box.appendChild(up);
+    }
+
     var again = el("button", "btn btn--line", "Check wiederholen");
     again.type = "button";
-    again.addEventListener("click", function () { answers = []; step = 0; renderIntro(); window.scrollTo(0, 0); });
+    again.addEventListener("click", function () { answers = []; deep = []; ctx = null; step = 0; renderIntro(); window.scrollTo(0, 0); });
     box.appendChild(again);
     root.appendChild(box);
     window.scrollTo(0, 0);
     box.querySelector("h1").setAttribute("tabindex", "-1");
     box.querySelector("h1").focus({ preventScroll: true });
+  }
+
+  // ---------- Stufe 2 ----------
+  function renderDeep() {
+    clear(root);
+    var area = AREAS[step];
+    var q = DEEP[step];
+    var box = el("div", "hc__card");
+    var top = el("div", "hc__top");
+    top.appendChild(el("p", "mono", "Vertiefung " + (step + 1) + " von " + DEEP.length + " · " + area.name));
+    var bar = el("div", "hc__progress");
+    var fill = el("span", "");
+    fill.style.width = (step / (DEEP.length + 1) * 100) + "%";
+    bar.appendChild(fill);
+    top.appendChild(bar);
+    box.appendChild(top);
+
+    var fs = el("fieldset", "hc__q");
+    fs.appendChild(el("legend", "", q.q));
+    q.a.forEach(function (text, i) {
+      var id = "d" + step + "a" + i;
+      var lab = el("label", "hc__opt");
+      lab.setAttribute("for", id);
+      var inp = document.createElement("input");
+      inp.type = "radio"; inp.name = "d" + step; inp.id = id; inp.value = String(i);
+      if (deep[step] === i) inp.checked = true;
+      inp.addEventListener("change", function () { deep[step] = i; next.disabled = false; });
+      lab.appendChild(inp);
+      lab.appendChild(el("span", "", text));
+      fs.appendChild(lab);
+    });
+    box.appendChild(fs);
+
+    var nav = el("div", "hc__nav");
+    var back = el("button", "btn btn--line", "Zurück");
+    back.type = "button";
+    back.addEventListener("click", function () {
+      if (step === 0) { deep = []; renderResult(); } else { step--; renderDeep(); }
+    });
+    var next = el("button", "btn", step === DEEP.length - 1 ? "Weiter" : "Weiter");
+    next.type = "button";
+    next.disabled = deep[step] === undefined;
+    next.addEventListener("click", function () { if (step === DEEP.length - 1) renderForm(); else { step++; renderDeep(); } });
+    nav.appendChild(back); nav.appendChild(next);
+    box.appendChild(nav);
+    root.appendChild(box);
+    var first = fs.querySelector("input:checked") || fs.querySelector("input");
+    if (first) first.focus({ preventScroll: true });
+  }
+
+  function field(label, control, hint) {
+    var w = el("div", "hc__field");
+    var l = el("label", "", label);
+    if (control.id) l.setAttribute("for", control.id);
+    w.appendChild(l);
+    w.appendChild(control);
+    if (hint) w.appendChild(el("p", "hc__fine", hint));
+    return w;
+  }
+  function select(id, name, opts) {
+    var s = document.createElement("select");
+    s.id = id; s.name = name;
+    var o0 = el("option", "", "Bitte wählen");
+    o0.value = "";
+    s.appendChild(o0);
+    opts.forEach(function (o) { var op = el("option", "", o); op.value = o; s.appendChild(op); });
+    return s;
+  }
+
+  function renderForm() {
+    clear(root);
+    var box = el("div", "hc__card");
+    var top = el("div", "hc__top");
+    top.appendChild(el("p", "mono", "Letzter Schritt · Ihre Situation"));
+    var bar = el("div", "hc__progress");
+    var fill = el("span", ""); fill.style.width = "85%";
+    bar.appendChild(fill); top.appendChild(bar);
+    box.appendChild(top);
+    box.appendChild(el("h1", "", "Wohin darf ich den Report schicken?"));
+    box.appendChild(el("p", "hc__lead", "Ein paar Angaben helfen mir, den Report auf Ihre Lage zuzuschneiden. Pflicht sind nur E-Mail-Adresse und Einverständnis."));
+
+    var form = document.createElement("form");
+    form.noValidate = true;
+    var email = document.createElement("input"); email.type = "email"; email.id = "f-email"; email.name = "email"; email.autocomplete = "email"; email.maxLength = 254; email.required = true;
+    var name = document.createElement("input"); name.type = "text"; name.id = "f-name"; name.name = "name"; name.autocomplete = "given-name"; name.maxLength = 80;
+    var branche = select("f-branche", "branche", OPTIONS.branche);
+    var groesse = select("f-groesse", "groesse", OPTIONS.groesse);
+    var entscheider = select("f-entscheider", "entscheider", OPTIONS.entscheider);
+    var zeitrahmen = select("f-zeitrahmen", "zeitrahmen", OPTIONS.zeitrahmen);
+    var budget = select("f-budget", "budget", OPTIONS.budget);
+    var text = document.createElement("textarea"); text.id = "f-text"; text.name = "freitext"; text.rows = 4; text.maxLength = 1000;
+
+    form.appendChild(field("E-Mail-Adresse (Pflicht)", email));
+    form.appendChild(field("Vorname (optional)", name));
+    form.appendChild(field("Branche", branche));
+    form.appendChild(field("Unternehmensgröße (Beschäftigte)", groesse));
+
+    var sysSet = el("fieldset", "hc__checks");
+    sysSet.appendChild(el("legend", "", "Welche Systeme sind im Einsatz?"));
+    OPTIONS.systeme.forEach(function (s, i) {
+      var lab = el("label", "hc__check");
+      var c = document.createElement("input"); c.type = "checkbox"; c.value = s; c.name = "systeme";
+      lab.appendChild(c); lab.appendChild(el("span", "", s));
+      sysSet.appendChild(lab);
+    });
+    form.appendChild(sysSet);
+
+    form.appendChild(field("Wer entscheidet über das Thema?", entscheider));
+    form.appendChild(field("Wann soll sich etwas ändern?", zeitrahmen));
+    form.appendChild(field("Gibt es für das Thema schon ein Budget?", budget));
+    form.appendChild(field("Was ist Ihr größtes Problem mit den Daten? (optional)", text));
+
+    // Bot-Feld: fuer Menschen unsichtbar
+    var hp = document.createElement("input"); hp.type = "text"; hp.name = "website"; hp.tabIndex = -1; hp.autocomplete = "off";
+    var hpw = el("div", "hc__hp"); hpw.setAttribute("aria-hidden", "true"); hpw.appendChild(hp);
+    form.appendChild(hpw);
+
+    var consent = el("label", "hc__check hc__consent");
+    var cc = document.createElement("input"); cc.type = "checkbox"; cc.id = "f-consent"; cc.required = true;
+    consent.appendChild(cc);
+    var cs = el("span", "", "Ich bin einverstanden, dass Tobias Lewen meine Angaben speichert und mich per E-Mail zu meinem Ergebnis kontaktiert. Ich kann das jederzeit widerrufen. Mehr in der ");
+    var dl = el("a", "", "Datenschutzerklärung"); dl.href = "datenschutz.html"; dl.target = "_blank"; dl.rel = "noopener noreferrer";
+    cs.appendChild(dl); cs.appendChild(document.createTextNode("."));
+    consent.appendChild(cs);
+    form.appendChild(consent);
+
+    var err = el("p", "hc__error"); err.setAttribute("role", "alert"); err.hidden = true;
+    form.appendChild(err);
+
+    var nav = el("div", "hc__nav");
+    var back = el("button", "btn btn--line", "Zurück"); back.type = "button";
+    back.addEventListener("click", function () { step = DEEP.length - 1; renderDeep(); });
+    var send = el("button", "btn", "Report anzeigen"); send.type = "submit";
+    nav.appendChild(back); nav.appendChild(send);
+    form.appendChild(nav);
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      err.hidden = true;
+      var v = email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { err.textContent = "Bitte geben Sie eine gültige E-Mail-Adresse ein."; err.hidden = false; email.focus(); return; }
+      if (!cc.checked) { err.textContent = "Bitte bestätigen Sie das Einverständnis, damit ich Ihnen den Report schicken kann."; err.hidden = false; cc.focus(); return; }
+      var systeme = [].slice.call(form.querySelectorAll('input[name="systeme"]:checked')).map(function (c) { return c.value; });
+      ctx = { email: v, name: name.value.trim(), branche: branche.value, groesse: groesse.value, systeme: systeme, entscheider: entscheider.value, zeitrahmen: zeitrahmen.value, budget: budget.value, freitext: text.value.trim() };
+      var scores = {};
+      AREAS.forEach(function (a, i) { scores[a.id] = [answers[i], deep[i]]; });
+      var payload = { v: 1, consent: true, website: hp.value, scores: scores, ctx: ctx };
+      send.disabled = true; send.textContent = "Wird gesendet";
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+      fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: ctrl ? ctrl.signal : undefined })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok && j && j.ok, error: j && j.error }; }); })
+        .then(function (res) {
+          clearTimeout(timer);
+          if (!res.ok) throw new Error(res.error || "Fehler");
+          renderResult();
+        })
+        .catch(function () {
+          clearTimeout(timer);
+          send.disabled = false; send.textContent = "Report anzeigen";
+          err.textContent = "Das hat leider nicht geklappt. Bitte versuchen Sie es noch einmal oder schreiben Sie mir direkt an " + MAIL + ".";
+          err.hidden = false;
+        });
+    });
+
+    box.appendChild(form);
+    root.appendChild(box);
+    window.scrollTo(0, 0);
+    email.focus({ preventScroll: true });
   }
 
   renderIntro();
