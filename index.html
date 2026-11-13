@@ -7,14 +7,16 @@
 <meta name="description" content="Datenplattform aus einer Hand: Strategie, Aufbau, Schulung, Betrieb und Team-Aufbau zum Festpreis. Freiberuflicher Data Engineer in Berlin.">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.className+=" js";</script>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="top__brand" href="index.html">tofia analytics</a>
+    <a class="top__brand" href="index.html"><img src="img/logo-mark.svg" alt="" width="26" height="26">tofia analytics</a>
     <nav class="top__nav mono">
       <a href="index.html#heute">Heute</a>
       <a href="index.html#weg">Weg</a>
+      <a href="index.html#praxis">Praxis</a>
       <a href="index.html#stack">Stack</a>
       <a href="portfolio.html">Portfolio</a>
       <a href="contact.html">Kontakt</a>
@@ -93,16 +95,16 @@
 <section class="band band--alt" id="heute">
   <div class="wrap">
     <div class="band__head">
-      <p class="mono">Ausgangslage</p>
-      <h2>Vorher hält eine Kette aus Exporten alles zusammen.</h2>
-      <p>Das funktioniert, solange niemand krank wird und niemand nachfragt.</p>
+      <p class="mono">Ein mögliches Beispiel</p>
+      <h2>So kann es heute aussehen.</h2>
+      <p>Viele Unternehmen halten ihre Zahlen mit einer Kette aus Exporten zusammen. Bei Ihnen kann es anders sein. Das Beispiel zeigt, was sich ändern lässt.</p>
     </div>
     <div class="compare">
       <div class="compare__col">
-        <h3>Heute</h3>
-        <p>Jede Abteilung zieht sich ihre Daten selbst. Die Wahrheit entsteht einmal im Monat per Hand.</p>
+        <h3>Mögliche Ausgangslage</h3>
+        <p>Häufig zieht sich jede Abteilung die Daten selbst, und die Zahlen entstehen einmal im Monat per Hand.</p>
         <div class="scheme scheme--small">
-          <svg viewBox="0 0 440 220" role="img" aria-label="Schema des Ist-Zustands: vier Quellsysteme führen über manuelle Exporte in eine Excel-Datei und von dort in einen Report.">
+          <svg viewBox="0 0 520 210" role="img" aria-label="Beispiel Ist-Zustand: vier Quellsysteme führen über manuelle Exporte in eine Excel-Datei und von dort in einen Report, der per Hand entsteht.">
             <rect class="node node--mute" x="0" y="10" width="112" height="30"/>
             <text class="ntext ntext--mute" x="12" y="30">ERP</text>
             <rect class="node node--mute" x="0" y="60" width="112" height="30"/>
@@ -111,27 +113,26 @@
             <text class="ntext ntext--mute" x="12" y="130">Shop</text>
             <rect class="node node--mute" x="0" y="160" width="112" height="30"/>
             <text class="ntext ntext--mute" x="12" y="180">CSV</text>
-
-            <path class="wire wire--mute wire--dash" d="M112 25 L250 95"/>
-            <path class="wire wire--mute wire--dash" d="M112 75 L250 100"/>
-            <path class="wire wire--mute wire--dash" d="M112 125 L250 105"/>
-            <path class="wire wire--mute wire--dash" d="M112 175 L250 110"/>
-
-            <rect class="node node--mute" x="250" y="80" width="120" height="46"/>
-            <text class="ntext ntext--mute" x="262" y="100">Excel</text>
-            <text class="ntext ntext--mute" x="262" y="116">Handarbeit</text>
-
-            <path class="wire wire--mute wire--dash" d="M370 103 H420"/>
-            <rect class="node node--mute" x="420" y="88" width="18" height="30"/>
-            <text class="ncap" x="250" y="150">3 Tage im Monat · 1 Person</text>
+            <path class="wire wire--mute wire--dash" d="M112 25 L250 86"/>
+            <path class="wire wire--mute wire--dash" d="M112 75 L250 92"/>
+            <path class="wire wire--mute wire--dash" d="M112 125 L250 100"/>
+            <path class="wire wire--mute wire--dash" d="M112 175 L250 106"/>
+            <rect class="node node--mute" x="250" y="71" width="120" height="50"/>
+            <text class="ntext ntext--mute" x="262" y="92">Excel</text>
+            <text class="ntext ntext--mute" x="262" y="108">Handarbeit</text>
+            <path class="wire wire--mute wire--dash" d="M370 96 H400"/>
+            <rect class="node node--mute" x="400" y="34" width="116" height="124"/>
+            <path class="wire wire--mute" d="M410 54 H506"/><path class="wire wire--mute" d="M410 68 H506"/><path class="wire wire--mute" d="M410 82 H506"/><path class="wire wire--mute" d="M410 96 H506"/><path class="wire wire--mute" d="M410 110 H506"/><path class="wire wire--mute" d="M410 124 H506"/><path class="wire wire--mute" d="M410 138 H506"/><path class="wire wire--mute" d="M446 46 V146"/><path class="wire wire--mute" d="M478 46 V146"/>
+            <text class="ncap" x="250" y="148">z. B. 3 Tage / Monat</text>
+            <text class="ncap" x="400" y="180">Report per Hand</text>
           </svg>
         </div>
       </div>
       <div class="compare__col compare__col--after">
-        <h3>Danach</h3>
-        <p>Quellen laufen automatisch ein, Kennzahlen sind an einer Stelle definiert, Fehler fallen vor dem Report auf.</p>
+        <h3>Mögliches Ergebnis</h3>
+        <p>Dann laufen die Quellen automatisch ein, Kennzahlen sind an einer Stelle definiert und Fehler fallen vor dem Report auf.</p>
         <div class="scheme scheme--small">
-          <svg viewBox="0 0 440 220" role="img" aria-label="Schema des Zielzustands: vier Quellsysteme laufen automatisch in eine Plattform und von dort in Auswertungen.">
+          <svg viewBox="0 0 520 210" role="img" aria-label="Beispiel Zielzustand: vier Quellsysteme laufen automatisch in eine Plattform und von dort in einen Report mit Kennzahlen und Diagramm.">
             <rect class="node" x="0" y="10" width="112" height="30"/>
             <text class="ntext" x="12" y="30">ERP</text>
             <rect class="node" x="0" y="60" width="112" height="30"/>
@@ -140,22 +141,24 @@
             <text class="ntext" x="12" y="130">Shop</text>
             <rect class="node" x="0" y="160" width="112" height="30"/>
             <text class="ntext" x="12" y="180">CSV</text>
-
-            <path class="wire" d="M112 25 H180 Q196 25 196 60 V95"/>
-            <path class="wire" d="M112 75 H180 Q196 75 196 90 V95"/>
-            <path class="wire" d="M112 125 H180 Q196 125 196 110 V105"/>
-            <path class="wire" d="M112 175 H180 Q196 175 196 140 V105"/>
-            <path class="wire" d="M196 100 H250"/>
-
-            <rect class="node node--fill" x="250" y="76" width="120" height="50"/>
-            <text class="ntext ntext--on" x="262" y="97">Plattform</text>
-            <text class="ntext ntext--on" x="262" y="114">automatisch</text>
-
-            <path class="wire" d="M370 101 H400 Q418 101 418 84 V74"/>
-            <path class="wire" d="M370 101 H400 Q418 101 418 112 V126"/>
-            <rect class="node" x="412" y="48" width="26" height="26"/>
-            <rect class="node" x="412" y="126" width="26" height="26"/>
-            <text class="ncap" x="250" y="150">täglich · überwacht</text>
+            <path class="wire" d="M112 25 H176 Q196 25 196 45 V96"/>
+            <path class="wire" d="M112 75 H176 Q196 75 196 95 V96"/>
+            <path class="wire" d="M112 125 H176 Q196 125 196 105 V96"/>
+            <path class="wire" d="M112 175 H176 Q196 175 196 155 V96"/>
+            <path class="wire" d="M196 96 H250"/>
+            <rect class="node node--fill" x="250" y="71" width="120" height="50"/>
+            <text class="ntext ntext--on" x="262" y="92">Plattform</text>
+            <text class="ntext ntext--on" x="262" y="108">automatisch</text>
+            <path class="wire" d="M370 96 H400"/>
+            <rect class="node" x="400" y="34" width="116" height="124"/>
+            <rect class="node--fill node" x="410" y="44" width="46" height="6"/>
+            <rect class="node" x="410" y="58" width="44" height="26"/>
+            <rect class="node" x="462" y="58" width="44" height="26"/>
+            <rect class="node--fill node" x="416" y="66" width="20" height="4"/>
+            <rect class="node--fill node" x="468" y="66" width="28" height="4"/>
+            <rect class="node--fill node" x="414" y="126" width="12" height="20"/><rect class="node--fill node" x="434" y="112" width="12" height="34"/><rect class="node--fill node" x="454" y="120" width="12" height="26"/><rect class="node--fill node" x="474" y="100" width="12" height="46"/><rect class="node--fill node" x="494" y="108" width="12" height="38"/>
+            <text class="ncap" x="250" y="148">täglich · überwacht</text>
+            <text class="ncap" x="400" y="180">Report</text>
           </svg>
         </div>
       </div>
@@ -322,6 +325,56 @@
     </article>
   </div>
 </section>
+<section class="band band--alt" id="praxis">
+  <div class="wrap">
+    <div class="band__head">
+      <p class="mono">Aus der Praxis</p>
+      <h2>Monatsreporting: von drei Tagen auf eine Stunde.</h2>
+      <p>Ein Projekt im Auftrag eines Dienstleisters, anonymisiert.</p>
+    </div>
+    <div class="case" id="case">
+      <div class="case__main">
+        <div class="case__big" aria-label="Von drei Tagen auf eine Stunde">
+          <span class="case__from">3 Tage</span><span class="case__arrow" aria-hidden="true">→</span><span class="case__to">1 Stunde</span>
+        </div>
+        <div class="bars">
+          <div class="bar">
+            <div class="bar__label"><span>Vorher, per Hand</span><span>3 Arbeitstage</span></div>
+            <div class="bar__track"><div class="bar__fill bar__fill--before" style="--w:100%"></div></div>
+          </div>
+          <div class="bar">
+            <div class="bar__label"><span>Nachher, automatisch</span><span>1 Stunde</span></div>
+            <div class="bar__track"><div class="bar__fill bar__fill--after" style="--w:4.2%"></div></div>
+          </div>
+          <p class="mono bars__scale">Im Maßstab: 3 Arbeitstage = 24 Stunden</p>
+        </div>
+      </div>
+      <div class="case__flow">
+        <svg viewBox="0 0 360 210" role="img" aria-label="Sieben Quellsysteme laufen in eine Plattform und von dort in einen Report.">
+          <rect class="node" x="0" y="10" width="14" height="14"/><rect class="node" x="0" y="36" width="14" height="14"/><rect class="node" x="0" y="62" width="14" height="14"/><rect class="node" x="0" y="88" width="14" height="14"/><rect class="node" x="0" y="114" width="14" height="14"/><rect class="node" x="0" y="140" width="14" height="14"/><rect class="node" x="0" y="166" width="14" height="14"/>
+          <path class="wire flowwire" pathLength="1" d="M14 17 C 80 17, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 43 C 80 43, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 69 C 80 69, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 95 C 80 95, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 121 C 80 121, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 147 C 80 147, 100 95, 150 95"/><path class="wire flowwire" pathLength="1" d="M14 173 C 80 173, 100 95, 150 95"/>
+          <rect class="node node--fill" x="150" y="70" width="80" height="50"/>
+          <text class="ntext ntext--on" x="160" y="99">Plattform</text>
+          <path class="wire" d="M230 95 H262" />
+          <rect class="node" x="256" y="30" width="92" height="116"/>
+          <rect class="node node--fill" x="264" y="38" width="40" height="5"/>
+          <rect class="node" x="264" y="50" width="36" height="22"/>
+          <rect class="node" x="306" y="50" width="34" height="22"/>
+          <rect class="node node--fill" x="262" y="118" width="11" height="18"/><rect class="node node--fill" x="278" y="104" width="11" height="32"/><rect class="node node--fill" x="294" y="112" width="11" height="24"/><rect class="node node--fill" x="310" y="92" width="11" height="44"/><rect class="node node--fill" x="326" y="100" width="11" height="36"/>
+          <text class="ncap" x="0" y="198">7 Quellsysteme</text>
+          <text class="ncap" x="150" y="198">Plattform</text>
+          <text class="ncap" x="256" y="198">Report</text>
+        </svg>
+      </div>
+      <dl class="case__facts">
+        <div><dt>7</dt><dd>Quellsysteme angebunden</dd></div>
+        <div><dt>1</dt><dd>Person war monatlich gebunden</dd></div>
+        <div><dt style="font-size:26px;padding-top:6px">Schrittweise</dt><dd>Erst ein Use Case, danach Gesellschaft für Gesellschaft</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
 <section class="band" id="stack">
   <div class="wrap">
     <div class="band__head">
@@ -331,32 +384,16 @@
     </div>
     <table class="stacktable">
       <tbody>
-        <tr><th scope="row">Plattform</th><td>BigQuery · Microsoft Fabric · Databricks · Azure Synapse</td></tr>
-        <tr><th scope="row">Transformation</th><td>dbt · Dataform · SQL · Python</td></tr>
-        <tr><th scope="row">Orchestrierung</th><td>Airflow · Terraform · CI/CD</td></tr>
-        <tr><th scope="row">Tracking</th><td>Snowplow · Event-Pipelines</td></tr>
-        <tr><th scope="row">Auswertung</th><td>Power BI</td></tr>
-        <tr><th scope="row">Zertifikate</th><td>Azure Data Engineer · Fabric Data Engineer · Power BI Data Analyst</td></tr>
+        <tr><th scope="row">Plattform</th><td><div class="techs"><span class="tech"><img src="img/tech/bigquery.svg" alt="" width="18" height="18" loading="lazy">BigQuery</span><span class="tech">Microsoft Fabric</span><span class="tech"><img src="img/tech/databricks.svg" alt="" width="18" height="18" loading="lazy">Databricks</span><span class="tech">Azure Synapse</span></div></td></tr>
+        <tr><th scope="row">Transformation</th><td><div class="techs"><span class="tech"><img src="img/tech/dbt.svg" alt="" width="18" height="18" loading="lazy">dbt</span><span class="tech">Dataform</span><span class="tech">SQL</span><span class="tech"><img src="img/tech/python.svg" alt="" width="18" height="18" loading="lazy">Python</span></div></td></tr>
+        <tr><th scope="row">Orchestrierung</th><td><div class="techs"><span class="tech"><img src="img/tech/airflow.svg" alt="" width="18" height="18" loading="lazy">Airflow</span><span class="tech"><img src="img/tech/terraform.svg" alt="" width="18" height="18" loading="lazy">Terraform</span><span class="tech">CI/CD</span></div></td></tr>
+        <tr><th scope="row">Tracking</th><td><div class="techs"><span class="tech">Snowplow</span><span class="tech">Event-Pipelines</span></div></td></tr>
+        <tr><th scope="row">Auswertung</th><td><div class="techs"><span class="tech"><img src="img/tech/powerbi.svg" alt="" width="18" height="18" loading="lazy">Power BI</span></div></td></tr>
+        <tr><th scope="row">Zertifikate</th><td><div class="techs"><span class="tech">Azure Data Engineer</span><span class="tech">Fabric Data Engineer</span><span class="tech">Power BI Data Analyst</span></div></td></tr>
       </tbody>
     </table>
 
-    <div style="margin-top:56px" id="praxis">
-      <p class="mono" style="margin-bottom:18px">Aus der Praxis · im Auftrag eines Dienstleisters, anonymisiert</p>
-      <div class="work">
-        <div class="work__col">
-          <h4>Ausgangslage</h4>
-          <p>Sieben Quellsysteme, ein Monatsreporting per Hand. Eine Person war drei Tage im Monat damit beschäftigt.</p>
-        </div>
-        <div class="work__col">
-          <h4>Vorgehen</h4>
-          <p>Quellen automatisch angebunden, Kennzahlen an einer Stelle definiert, Reporting automatisiert. Erster Use Case, danach Gesellschaft für Gesellschaft.</p>
-        </div>
-        <div class="work__col">
-          <h4>Ergebnis</h4>
-          <p>Reporting von drei Tagen auf eine Stunde.</p>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </section>
 
@@ -387,5 +424,10 @@
     </div>
   </div>
 </footer>
+<script>
+(function(){var el=document.getElementById("case");if(!el)return;
+if(!("IntersectionObserver" in window)){el.classList.add("in");return;}
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){el.classList.add("in");io.disconnect();}});},{threshold:.3});io.observe(el);})();
+</script>
 </body>
 </html>
