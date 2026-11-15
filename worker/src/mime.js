@@ -28,24 +28,30 @@ export function encodeHeaderText(text) {
   return words.map((w) => `=?UTF-8?B?${utf8ToBase64(w)}?=`).join(CRLF + " ");
 }
 
-export function buildRawMail({ from, fromName, to, replyTo, subject, text, date = new Date(), id = crypto.randomUUID() }) {
+export function buildRawMail({ from, fromName, to, replyTo, subject, text, html, date = new Date(), id = crypto.randomUUID() }) {
   assertHeaderValue(from, "from");
   assertHeaderValue(to, "to");
   assertHeaderValue(subject, "subject");
   if (replyTo) assertHeaderValue(replyTo, "replyTo");
   const domain = from.split("@")[1] || "localhost";
   const fromHeader = fromName ? `${encodeHeaderText(assertHeaderValue(fromName, "fromName"))} <${from}>` : `<${from}>`;
-  const body = utf8ToBase64(text).replace(/.{1,76}/g, "$&" + CRLF).trimEnd();
-  const headers = [
+  const b64 = (s) => utf8ToBase64(s).replace(/.{1,76}/g, "$&" + CRLF).trimEnd();
+  const common = [
     `Date: ${date.toUTCString().replace("GMT", "+0000")}`,
     `From: ${fromHeader}`,
     `To: <${to}>`,
     replyTo ? `Reply-To: <${replyTo}>` : null,
     `Message-ID: <${id}@${domain}>`,
     `Subject: ${encodeHeaderText(subject)}`,
-    "MIME-Version: 1.0",
-    "Content-Type: text/plain; charset=UTF-8",
-    "Content-Transfer-Encoding: base64"
+    "MIME-Version: 1.0"
   ].filter(Boolean);
-  return headers.join(CRLF) + CRLF + CRLF + body + CRLF;
+
+  if (!html) {
+    const headers = [...common, "Content-Type: text/plain; charset=UTF-8", "Content-Transfer-Encoding: base64"];
+    return headers.join(CRLF) + CRLF + CRLF + b64(text) + CRLF;
+  }
+  const boundary = "=_tofia_" + id.replace(/[^A-Za-z0-9]/g, "");
+  const part = (type, content) => [`--${boundary}`, `Content-Type: ${type}; charset=UTF-8`, "Content-Transfer-Encoding: base64", "", b64(content)].join(CRLF);
+  const headers = [...common, `Content-Type: multipart/alternative; boundary="${boundary}"`];
+  return headers.join(CRLF) + CRLF + CRLF + part("text/plain", text) + CRLF + part("text/html", html) + CRLF + `--${boundary}--` + CRLF;
 }

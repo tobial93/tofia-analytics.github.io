@@ -72,3 +72,16 @@ test("Mailtext enthaelt Kerndaten, Betreff ohne Freitext", () => {
   assert.ok(m.text.includes("Reporting: 0,5 von 3 (Handlungsbedarf)"));
   assert.ok(m.text.includes("2026-11-13T12:00:00.000Z"));
 });
+
+test("HTML-Mail: Angaben des Besuchers werden maskiert, Struktur vorhanden", () => {
+  const p = good(); p.ctx.freitext = '<script>alert(1)</script> & "x"'; p.ctx.name = "<b>Anna</b>";
+  const r = validate(p, 500);
+  const m = buildMail(r.data, new Date("2026-11-15T16:03:51Z"));
+  assert.ok(m.html.includes("&lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;x&quot;"));
+  assert.ok(!m.html.includes("<script>"));
+  assert.ok(!m.html.includes("<b>Anna"));
+  assert.ok(m.html.includes("Gewachsen"));
+  assert.ok(m.html.includes("mailto:kunde@firma.de"));
+  assert.ok(m.html.includes("15.11.2026, 17:03 Uhr"));
+  assert.ok(m.html.includes("Kritisch:"));
+});

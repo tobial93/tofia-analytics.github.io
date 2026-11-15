@@ -6,7 +6,7 @@ import { buildRawMail } from "./mime.js";
 export async function sendViaCloudflare(env, mail) {
   const { EmailMessage } = await import("cloudflare:email");
   const raw = buildRawMail({
-    from: mail.from, fromName: mail.fromName, to: mail.to, replyTo: mail.replyTo, subject: mail.subject, text: mail.text
+    from: mail.from, fromName: mail.fromName, to: mail.to, replyTo: mail.replyTo, subject: mail.subject, text: mail.text, html: mail.html
   });
   await env.EMAIL.send(new EmailMessage(mail.from, mail.to, raw));
 }

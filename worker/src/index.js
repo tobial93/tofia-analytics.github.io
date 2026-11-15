@@ -63,7 +63,8 @@ export default {
         fromName: "tofia analytics Health Check",
         replyTo: result.data.email,
         subject: mail.subject,
-        text: mail.text
+        text: mail.text,
+        html: mail.html
       });
     } catch (e) {
       console.error("Mailversand fehlgeschlagen:", e && e.code, e && e.message);

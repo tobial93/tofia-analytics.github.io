@@ -41,3 +41,16 @@ test("Textzeilen im Body sind hoechstens 76 Zeichen lang", () => {
   const bodyLines = raw.split("\r\n\r\n")[1].trimEnd().split("\r\n");
   for (const l of bodyLines) assert.ok(l.length <= 76);
 });
+
+test("Mail mit HTML ist multipart/alternative mit Text- und HTML-Teil", () => {
+  const raw = buildRawMail({ ...base, html: "<p>Größe ä</p>" });
+  const m = raw.match(/Content-Type: multipart\/alternative; boundary="([^"]+)"/);
+  assert.ok(m);
+  const parts = raw.split("--" + m[1]).slice(1, -1);
+  assert.equal(parts.length, 2);
+  const decode = (p) => Buffer.from(p.split("\r\n\r\n")[1].replace(/\r\n/g, ""), "base64").toString("utf8");
+  assert.equal(decode(parts[0]), base.text);
+  assert.equal(decode(parts[1]), "<p>Größe ä</p>");
+  assert.match(parts[0], /text\/plain/); assert.match(parts[1], /text\/html/);
+  assert.ok(raw.trimEnd().endsWith("--" + m[1] + "--"));
+});
