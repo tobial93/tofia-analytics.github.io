@@ -3,29 +3,34 @@
 Nimmt die Angaben aus Stufe 2 des Health Checks entgegen, prüft sie und schickt Tobias eine Mail.
 Die Zieladresse steht nicht im Code (das Repo ist öffentlich), sondern als Secret bei Cloudflare.
 
-## Einrichten (einmalig, Reihenfolge einhalten)
+Der Versand läuft über die Email-Routing-Anbindung von Cloudflare (`send_email`). Sie ist im kostenlosen
+Workers-Tarif nutzbar, sendet aber nur an Adressen, die in Email Routing verifiziert sind (also an dich).
+Der neuere Dienst "Email Sending" ist dagegen nur mit dem bezahlten Tarif verfügbar und wird hier nicht gebraucht.
 
-### 1. Absender-Domain bei Cloudflare freischalten
-1. Cloudflare-Dashboard öffnen, Domain `tofia-analytics.com` muss dort mit Cloudflare-DNS liegen.
-2. Menü **Compute > Email Service > Email Sending**, dann **Onboard Domain**, `tofia-analytics.com` wählen, **Done**.
-3. Cloudflare legt DNS-Einträge an (MX und SPF auf `cf-bounce.…`, DKIM, DMARC). Warte 5 bis 15 Minuten und prüfe unter **Email Sending > Settings > DNS records**, dass alles als konfiguriert gilt.
-4. Danach eine Testmail an `tobias@tofia-analytics.com` schicken: Die bestehende Weiterleitung muss weiter funktionieren.
+## Einrichten (einmalig)
 
-### 2. Zieladresse prüfen
-Unter **Email > Email Routing > Destination addresses** muss deine GMX-Adresse den Status **Verified** haben.
-Der Worker darf nur an verifizierte Adressen senden (im kostenlosen Tarif).
+### 1. Email Routing prüfen
+Im Cloudflare-Dashboard bei der Domain `tofia-analytics.com` unter **Email > Email Routing**:
+- Email Routing ist aktiv (Weiterleitung von `tobias@tofia-analytics.com` funktioniert bereits).
+- Unter **Destination addresses** hat deine GMX-Adresse den Status **Verified**.
+
+### 2. Code holen
+```
+cd C:\Users\tle\ProjectRepos
+git clone https://github.com/tobial93/tofia-analytics.github.io
+cd tofia-analytics.github.io
+git checkout website-v11
+cd worker
+```
 
 ### 3. Worker veröffentlichen
-Im Ordner `worker` (Node.js muss installiert sein):
-
 ```
-npx wrangler login
-npx wrangler deploy
-npx wrangler secret put TO_ADDRESS
+npx wrangler@latest login
+npx wrangler@latest deploy
+npx wrangler@latest secret put TO_ADDRESS
 ```
-
 - `login` öffnet den Browser, dort meldest du dich selbst an.
-- `deploy` legt den Worker an und hängt ihn an `api.tofia-analytics.com`.
+- `deploy` legt den Worker an und hängt ihn an `api.tofia-analytics.com` (der DNS-Eintrag entsteht automatisch, es darf noch keinen mit diesem Namen geben).
 - `secret put` fragt nach der Zieladresse (deine GMX-Adresse). Sie wird nur bei Cloudflare gespeichert.
 
 ### 4. Testen
@@ -46,10 +51,10 @@ In `js/health-check.js` die Zeile `var ENDPOINT = "";` auf `"https://api.tofia-a
 |---|---|
 | 403 | Aufruf kam nicht von `tofia-analytics.com` (Origin), oder `ALLOWED_ORIGINS` stimmt nicht |
 | 429 | Mehr als 5 Anfragen in 10 Minuten von derselben IP |
-| 502 | Versand fehlgeschlagen. Live-Protokoll mit `npx wrangler tail` ansehen |
-| Keine Mail | Spam-Ordner prüfen, Zieladresse bei Email Routing verifiziert? DNS-Einträge aus Schritt 1 vollständig? |
+| 502 | Versand fehlgeschlagen. Live-Protokoll mit `npx wrangler@latest tail` ansehen. Meist ist die Zieladresse nicht verifiziert oder Email Routing nicht aktiv |
+| Keine Mail | Spam-Ordner prüfen. Ist sie dort, einmal "kein Spam" markieren und bei GMX einen Filter für den Absender `noreply@tofia-analytics.com` anlegen |
 
 ## Hinweise
-- Der Versanddienst von Cloudflare ist bei Erstellung dieser Datei noch in der Beta-Phase.
-- Senden an beliebige Empfänger bräuchte den bezahlten Tarif. Dieser Worker sendet nur an dich.
-- Tests der Prüflogik: `node --test test/*.test.js`
+- Der Absender `noreply@tofia-analytics.com` ist nur ein Absendername. Antworten gehen dank Reply-To an den Besucher, nicht an `noreply`.
+- Senden an beliebige Empfänger (zum Beispiel Reports an Besucher) wäre mit diesem Weg nicht möglich. Dafür bräuchte es den bezahlten Tarif oder einen anderen Mail-Dienst.
+- Tests der Prüflogik und des Mailaufbaus: `node --test test/*.test.js`

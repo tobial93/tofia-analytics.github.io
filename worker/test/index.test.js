@@ -8,7 +8,7 @@ const body = () => JSON.stringify({
   scores: { daten: [3, 3], vertrauen: [3, 3], reporting: [3, 3], wissen: [3, 3], betrieb: [0, 0] },
   ctx: { email: "kunde@firma.de", name: "", branche: "", groesse: "", systeme: [], entscheider: "", zeitrahmen: "", budget: "", freitext: "" }
 });
-const mkEnv = () => { const sent = []; return { sent, ALLOWED_ORIGINS: ORIGIN, TO_ADDRESS: "ziel@example.org", FROM_ADDRESS: "noreply@tofia-analytics.com", EMAIL: { send: async (m) => { sent.push(m); return { messageId: "x" }; } } }; };
+const mkEnv = () => { const sent = []; return { sent, ALLOWED_ORIGINS: ORIGIN, TO_ADDRESS: "ziel@example.org", FROM_ADDRESS: "noreply@tofia-analytics.com", sendMail: async (_env, m) => { sent.push(m); } }; };
 const post = (b, origin = ORIGIN, ip = "1.1.1.1") => new Request("https://api.example/health-check", { method: "POST", headers: { Origin: origin, "Content-Type": "application/json", "CF-Connecting-IP": ip }, body: b });
 
 test("erlaubte Herkunft: Mail wird gesendet, Reply-To gesetzt", async () => {
@@ -51,7 +51,7 @@ test("Mengenbegrenzung: sechste Anfrage derselben IP wird abgelehnt", async () =
 });
 
 test("Versandfehler: 502 ohne Details nach aussen", async () => {
-  const env = mkEnv(); env.EMAIL.send = async () => { throw Object.assign(new Error("boom"), { code: "E_X" }); };
+  const env = mkEnv(); env.sendMail = async () => { throw Object.assign(new Error("boom"), { code: "E_X" }); };
   const res = await worker.fetch(post(body(), ORIGIN, "6.6.6.6"), env);
   assert.equal(res.status, 502);
   assert.ok(!(await res.text()).includes("boom"));

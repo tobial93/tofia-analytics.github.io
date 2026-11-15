@@ -1,4 +1,5 @@
 import { validate, buildMail } from "./validate.js";
+import { sendViaCloudflare } from "./send.js";
 
 // Einfache Mengenbegrenzung pro Worker-Instanz (best effort, nur im Arbeitsspeicher):
 // maximal 5 Anfragen pro IP in 10 Minuten. IP-Adressen werden nicht gespeichert, nur gezaehlt.
@@ -55,9 +56,11 @@ export default {
 
     const mail = buildMail(result.data);
     try {
-      await env.EMAIL.send({
+      // env.sendMail nur fuer Tests: dort ersetzt eine Attrappe den echten Versand
+      await (env.sendMail || sendViaCloudflare)(env, {
         to: env.TO_ADDRESS,
         from: env.FROM_ADDRESS || "noreply@tofia-analytics.com",
+        fromName: "tofia analytics Health Check",
         replyTo: result.data.email,
         subject: mail.subject,
         text: mail.text

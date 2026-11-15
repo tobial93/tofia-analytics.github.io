@@ -12,7 +12,6 @@ routes = [{ pattern = "api.tofia-analytics.com", custom_domain = true }]
 FROM_ADDRESS = "noreply@tofia-analytics.com"
 ALLOWED_ORIGINS = "https://tofia-analytics.com,https://www.tofia-analytics.com"
 
-# Mail-Versand (Cloudflare Email Service)
+# Mail-Versand ueber Email Routing (kostenlos, nur an verifizierte Zieladressen)
 [[send_email]]
 name = "EMAIL"
-remote = true
