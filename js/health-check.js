@@ -419,7 +419,7 @@
     var consent = el("label", "hc__check hc__consent");
     var cc = document.createElement("input"); cc.type = "checkbox"; cc.id = "f-consent"; cc.required = true;
     consent.appendChild(cc);
-    var cs = el("span", "", "Ich bin einverstanden, dass Tobias Lewen meine Angaben speichert und mich per E-Mail zu meinem Ergebnis kontaktiert. Ich kann das jederzeit widerrufen. Mehr in der ");
+    var cs = el("span", "", "Ich bin einverstanden, dass Tobias Lewen meine Angaben speichert, mir eine Bestätigung mit meinem Ergebnis schickt und mich per E-Mail zu meinem Ergebnis kontaktiert. Ich kann das jederzeit widerrufen. Mehr in der ");
     var dl = el("a", "", "Datenschutzerklärung"); dl.href = "datenschutz.html"; dl.target = "_blank"; dl.rel = "noopener noreferrer";
     cs.appendChild(dl); cs.appendChild(document.createTextNode("."));
     consent.appendChild(cs);

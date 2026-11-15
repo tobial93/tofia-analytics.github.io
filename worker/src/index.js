@@ -1,5 +1,6 @@
 import { validate, buildMail } from "./validate.js";
-import { sendViaCloudflare } from "./send.js";
+import { buildCustomerMail } from "./customer.js";
+import { sendViaCloudflare, sendToCustomer } from "./send.js";
 
 // Einfache Mengenbegrenzung pro Worker-Instanz (best effort, nur im Arbeitsspeicher):
 // maximal 5 Anfragen pro IP in 10 Minuten. IP-Adressen werden nicht gespeichert, nur gezaehlt.
@@ -69,6 +70,22 @@ export default {
     } catch (e) {
       console.error("Mailversand fehlgeschlagen:", e && e.code, e && e.message);
       return json({ ok: false, error: "Versand fehlgeschlagen." }, 502, cors);
+    }
+
+    // Bestaetigung an den Besucher: bewusst "best effort". Scheitert sie, ist die Anfrage trotzdem angekommen.
+    if (env.CUSTOMER_MAIL === "on") {
+      try {
+        const cm = buildCustomerMail(result.data);
+        await (env.sendCustomerMail || sendToCustomer)(env, {
+          to: result.data.email,
+          from: env.FROM_ADDRESS || "noreply@tofia-analytics.com",
+          fromName: "Tobias Lewen | tofia analytics",
+          replyTo: env.REPLY_TO || "tobias@tofia-analytics.com",
+          subject: cm.subject, text: cm.text, html: cm.html
+        });
+      } catch (e) {
+        console.error("Kundenmail fehlgeschlagen:", e && e.code, e && e.message);
+      }
     }
     return json({ ok: true }, 200, cors);
   }

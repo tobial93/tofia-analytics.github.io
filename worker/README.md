@@ -46,6 +46,16 @@ Erwartet: `ok  True` und kurz danach eine Mail in deinem Postfach.
 ### 5. Auf der Seite einschalten
 In `js/health-check.js` die Zeile `var ENDPOINT = "";` auf `"https://api.tofia-analytics.com"` setzen. Erst danach erscheint auf der Seite der Button „Genaueren Report anfordern“.
 
+## Bestätigungsmail an den Besucher (Workers Paid)
+
+Der Besucher bekommt nach dem Absenden eine Mail mit seinem Ergebnis. Das braucht:
+
+1. Plan **Workers Paid** (Dashboard: Compute > Workers & Pages > Plans). Enthalten sind 3.000 Mails im Monat, danach 0,35 USD je 1.000.
+2. Absenderdomain einrichten: Dashboard **Compute > Email Service > Email Sending > Onboard Domain**, Domain `tofia-analytics.com` wählen, fertig. Cloudflare legt die DNS-Einträge (SPF, DKIM, DMARC) selbst an. Das dauert meist 5 bis 15 Minuten.
+3. Worker neu veröffentlichen: `npx wrangler@latest deploy`.
+
+Schalter: `CUSTOMER_MAIL` in `wrangler.toml` (`"on"` oder `"off"`). Scheitert die Kundenmail, bekommt der Besucher trotzdem sein Ergebnis und du deine Mail. Der Fehler steht dann in den Worker-Logs.
+
 ## Fehlersuche
 | Symptom | Ursache |
 |---|---|

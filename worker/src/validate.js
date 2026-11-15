@@ -92,11 +92,11 @@ export function evaluate(scores) {
   return { areas, total, level, critical };
 }
 
-const fmt = (n) => String(n).replace(".", ",");
-const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+export const fmt = (n) => String(n).replace(".", ",");
+export const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const berlin = (d) => new Intl.DateTimeFormat("de-DE", { timeZone: "Europe/Berlin", dateStyle: "medium", timeStyle: "short" }).format(d) + " Uhr";
-const tone = (s) => (s < 1.5 ? "#C0392B" : s < 2.5 ? "#D18A00" : "#1F8A4C");
-const label = (s) => (s < 1.5 ? "Handlungsbedarf" : s < 2.5 ? "Lücken" : "Stabil");
+export const tone = (s) => (s < 1.5 ? "#C0392B" : s < 2.5 ? "#D18A00" : "#1F8A4C");
+export const label = (s) => (s < 1.5 ? "Handlungsbedarf" : s < 2.5 ? "Lücken" : "Stabil");
 
 export function buildMail(data, now = new Date()) {
   const ev = evaluate(data.scores);
@@ -129,11 +129,9 @@ export function buildMail(data, now = new Date()) {
   return { subject, text: lines.join("\n"), html: buildHtml(data, ev, now) };
 }
 
-// HTML-Variante der Mail. Nur Tabellen und Inline-Styles, damit sie in jedem Mailprogramm gleich aussieht.
-// Alle Angaben des Besuchers werden maskiert (esc).
-export function buildHtml(data, ev, now) {
+// Tabellenzeilen "Bereich, Balken, Bewertung, Punkte" - von beiden Mails (intern und Kunde) genutzt.
+export function areaRows(ev) {
   const F = "font-family:Arial,Helvetica,sans-serif;";
-  const row = (k, val) => `<tr><td style="${F}font-size:13px;color:#667085;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="${F}font-size:14px;color:#111;padding:6px 0">${esc(val || "-")}</td></tr>`;
   const cell = (w, c) => `<td width="${w}" height="8" style="width:${w}px;height:8px;background:${c};font-size:0;line-height:0">&nbsp;</td>`;
   const gap = '<td width="4" style="width:4px;font-size:0">&nbsp;</td>';
   const bar = (s) => [0, 1, 2].map((k) => {
@@ -141,11 +139,19 @@ export function buildHtml(data, ev, now) {
     if (s >= k + 0.5) return cell(15, tone(s)) + cell(15, "#E4E7EC") + gap;
     return cell(30, "#E4E7EC") + gap;
   }).join("");
-  const areas = ev.areas.map((a) => `<tr>
+  return ev.areas.map((a) => `<tr>
     <td style="${F}font-size:14px;color:#111;padding:9px 12px 9px 0;border-top:1px solid #E4E7EC">${esc(a.name)}</td>
     <td style="padding:9px 12px 9px 0;border-top:1px solid #E4E7EC"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${bar(a.score)}</tr></table></td>
     <td style="${F}font-size:13px;color:${tone(a.score)};font-weight:bold;padding:9px 0;border-top:1px solid #E4E7EC;white-space:nowrap">${esc(label(a.score))}</td>
     <td style="${F}font-size:12px;color:#667085;padding:9px 0 9px 12px;border-top:1px solid #E4E7EC;text-align:right;white-space:nowrap">${esc(fmt(a.score))} / 3</td></tr>`).join("");
+}
+
+// HTML-Variante der Mail. Nur Tabellen und Inline-Styles, damit sie in jedem Mailprogramm gleich aussieht.
+// Alle Angaben des Besuchers werden maskiert (esc).
+export function buildHtml(data, ev, now) {
+  const F = "font-family:Arial,Helvetica,sans-serif;";
+  const row = (k, val) => `<tr><td style="${F}font-size:13px;color:#667085;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="${F}font-size:14px;color:#111;padding:6px 0">${esc(val || "-")}</td></tr>`;
+  const areas = areaRows(ev);
   const warn = ev.critical.length
     ? `<tr><td style="padding:0 0 20px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="${F}font-size:14px;color:#111;background:#FBEFEC;border-left:3px solid #C0392B;padding:12px 16px"><strong>Kritisch:</strong> ${esc(ev.critical.join(", "))}<br><span style="color:#667085;font-size:13px">Empfehlung: Audit (Verstehen) anbieten.</span></td></tr></table></td></tr>`
     : "";
