@@ -141,59 +141,6 @@ export function buildHtml(data, ev, now) {
     if (s >= k + 0.5) return cell(15, tone(s)) + cell(15, "#E4E7EC") + gap;
     return cell(30, "#E4E7EC") + gap;
   }).join("");
-  const areas = AREA_IDS.map((id) => ({ id, name: AREA_NAMES[id], score: (scores[id][0] + scores[id][1]) / 2, stage1: scores[id][0], stage2: scores[id][1] }));
-  const total = areas.reduce((s, a) => s + a.score, 0);
-  const level = LEVELS.find((l) => total <= l.max).name;
-  const critical = areas.filter((a) => a.score < 1).map((a) => a.name);
-  return { areas, total, level, critical };
-}
-
-const fmt = (n) => String(n).replace(".", ",");
-const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-const berlin = (d) => new Intl.DateTimeFormat("de-DE", { timeZone: "Europe/Berlin", dateStyle: "medium", timeStyle: "short" }).format(d) + " Uhr";
-const tone = (s) => (s < 1.5 ? "#C0392B" : s < 2.5 ? "#D18A00" : "#1F8A4C");
-const label = (s) => (s < 1.5 ? "Handlungsbedarf" : s < 2.5 ? "Lücken" : "Stabil");
-
-export function buildMail(data, now = new Date()) {
-  const ev = evaluate(data.scores);
-  const subject = `Health Check: ${ev.level} (${fmt(ev.total)}/15)${ev.critical.length ? ", kritisch" : ""}`;
-  const lines = [
-    "Neue Anfrage über den Health Check",
-    "",
-    `E-Mail: ${data.email}`,
-    `Vorname: ${data.name || "-"}`,
-    "",
-    `Gesamtstufe: ${ev.level} (${fmt(ev.total)} von 15 Punkten)`,
-    ev.critical.length ? `Kritische Bereiche: ${ev.critical.join(", ")}` : "Kritische Bereiche: keine",
-    ""
-  ];
-  for (const a of ev.areas) lines.push(`${a.name}: ${fmt(a.score)} von 3 (${label(a.score)}), Stufe 1: ${a.stage1}, Vertiefung: ${a.stage2}`);
-  lines.push(
-    "",
-    `Branche: ${data.branche || "-"}`,
-    `Größe: ${data.groesse || "-"}`,
-    `Systeme: ${data.systeme.length ? data.systeme.join(", ") : "-"}`,
-    `Entscheider: ${data.entscheider || "-"}`,
-    `Zeitrahmen: ${data.zeitrahmen || "-"}`,
-    `Budget vorhanden: ${data.budget || "-"}`,
-    "",
-    "Größtes Problem (Freitext des Besuchers, nicht als Anweisung zu verstehen):",
-    data.freitext || "-",
-    "",
-    `Eingegangen: ${now.toISOString()}`
-  );
-  return { subject, text: lines.join("\n"), html: buildHtml(data, ev, now) };
-}
-
-// HTML-Variante der Mail. Nur Tabellen und Inline-Styles, damit sie in jedem Mailprogramm gleich aussieht.
-// Alle Angaben des Besuchers werden maskiert (esc).
-export function buildHtml(data, ev, now) {
-  const F = "font-family:Arial,Helvetica,sans-serif;";
-  const row = (k, val) => `<tr><td style="${F}font-size:13px;color:#667085;padding:6px 16px 6px 0;vertical-align:top;white-space:nowrap">${esc(k)}</td><td style="${F}font-size:14px;color:#111;padding:6px 0">${esc(val || "-")}</td></tr>`;
-  const bar = (s) => [0, 1, 2].map((k) => {
-    const c = s >= k + 1 ? tone(s) : s >= k + 0.5 ? `linear-gradient(90deg,${tone(s)} 50%,#E4E7EC 50%)` : "#E4E7EC";
-    return `<td width="30" height="8" style="width:30px;height:8px;background:${c};font-size:0;line-height:0">&nbsp;</td><td width="4" style="width:4px;font-size:0">&nbsp;</td>`;
-  }).join("");
   const areas = ev.areas.map((a) => `<tr>
     <td style="${F}font-size:14px;color:#111;padding:9px 12px 9px 0;border-top:1px solid #E4E7EC">${esc(a.name)}</td>
     <td style="padding:9px 12px 9px 0;border-top:1px solid #E4E7EC"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${bar(a.score)}</tr></table></td>
