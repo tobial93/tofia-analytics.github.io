@@ -21,6 +21,16 @@ export function calUrl(data) {
   return CAL + "?" + p.join("&");
 }
 
+// Logo (Punktraster) als Tabelle statt Bild: funktioniert in jedem Mailprogramm, auch wenn Bilder blockiert sind.
+// Hervorgehobene Punkte sind weiss, die uebrigen ein helles Blau (Raster wie in img/dot-grid.svg).
+const LOGO_ON = [[1, 4], [2], [0, 3, 5], [1, 4]];
+function logoHtml() {
+  const dot = (on) => `<td width="6" height="6" style="width:6px;height:6px;border-radius:3px;background:${on ? "#FFFFFF" : "#7F9BEA"};font-size:0;line-height:0">&nbsp;</td>`;
+  const gap = '<td width="5" style="width:5px;font-size:0;line-height:0">&nbsp;</td>';
+  const rows = LOGO_ON.map((on) => `<tr>${[0, 1, 2, 3, 4, 5].map((c) => dot(on.includes(c))).join(gap)}</tr><tr><td colspan="11" height="5" style="height:5px;font-size:0;line-height:0">&nbsp;</td></tr>`);
+  return `<table role="presentation" cellpadding="0" cellspacing="0" aria-hidden="true">${rows.join("")}</table>`;
+}
+
 // Bestaetigungsmail an den Besucher. Sachlich, ohne Werbung, mit einem einzigen Button.
 export function buildCustomerMail(data) {
   const ev = evaluate(data.scores);
@@ -48,7 +58,9 @@ export function buildCustomerMail(data) {
 <div style="display:none;max-height:0;overflow:hidden;color:#F4F6FA">Ihr Ergebnis: ${esc(ev.level)}. Ich melde mich ${esc(REPLY_TIME)}.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6FA"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#FFFFFF">
-<tr><td style="background:#1E4FDB;padding:18px 28px;${F}font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#FFFFFF">tofia analytics &middot; Ihr Health Check</td></tr>
+<tr><td style="background:#1E4FDB;padding:18px 28px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+  <td style="${F}font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#FFFFFF">tofia analytics &middot; Ihr Health Check</td>
+  <td align="right" width="80" style="width:80px">${logoHtml()}</td></tr></table></td></tr>
 <tr><td style="padding:28px 28px 8px;${F}font-size:15px;line-height:1.55;color:#111">
   <p style="margin:0 0 12px">${esc(greeting)}</p>
   <p style="margin:0 0 24px">${esc(intro)}</p>
