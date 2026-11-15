@@ -89,7 +89,7 @@
 
   // Adresse des Workers fuer Stufe 2. Leer lassen, solange der Worker nicht eingerichtet ist:
   // dann bleibt der Check bei Stufe 1. Beispiel: "https://api.tofia-analytics.com/health-check"
-  var ENDPOINT = "";
+  var ENDPOINT = "https://api.tofia-analytics.com";
 
   // Vertiefende Fragen (Stufe 2), je eine pro Bereich in derselben Reihenfolge wie AREAS
   var DEEP = [
