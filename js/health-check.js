@@ -38,7 +38,7 @@
         "Weitgehend automatisch, mit kleinen manuellen Schritten.",
         "Vollautomatisch. Die Zahlen sind jederzeit abrufbar."
       ],
-      low: ["Ihr Monatsreport bindet jeden Monat mehrere Arbeitstage. Das ist Zeit, die für Analyse fehlt.", "Ich würde den Report automatisieren. In meinem Praxisbeispiel sank der Aufwand von drei Tagen auf eine Stunde."],
+      low: ["Ihr Monatsreport bindet jeden Monat mehrere Arbeitstage. Das ist Zeit, die für Analyse fehlt.", "Ich würde den Report automatisieren. In meinem Praxisbeispiel sank der Aufwand von zwei Tagen auf zwei Stunden."],
       mid: ["Der Report ist weitgehend automatisiert, einzelne Schritte kosten aber noch Zeit.", "Ich würde die verbleibenden manuellen Schritte entfernen und die Zahlen jederzeit abrufbar machen."],
       high: ["Ihr Reporting läuft automatisch.", "Hier ist kein Handlungsbedarf. Interessant wäre eher, ob die Berichte auch genutzt werden."]
     },
