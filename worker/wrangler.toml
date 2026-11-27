@@ -17,3 +17,14 @@ CUSTOMER_MAIL = "on"
 # Mail-Versand: Mail an dich ueber Email Routing, Bestaetigung an Besucher ueber Email Sending
 [[send_email]]
 name = "EMAIL"
+
+# Logs im Cloudflare-Dashboard (Workers > tofia-health-check > Logs)
+[observability]
+enabled = true
+
+# Anonyme Statistik je Absendung (siehe schema.sql und README, Abschnitt "Statistik in D1").
+# database_id kommt aus: npx wrangler@latest d1 create tofia-leads
+[[d1_databases]]
+binding = "LEAD_DB"
+database_name = "tofia-leads"
+database_id = "HIER_DIE_ID_EINTRAGEN"

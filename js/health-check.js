@@ -91,6 +91,21 @@
   // dann bleibt der Check bei Stufe 1. Beispiel: "https://api.tofia-analytics.com/health-check"
   var ENDPOINT = "https://api.tofia-analytics.com";
 
+  // Herkunft des Besuchers fuer die anonyme Statistik: UTM-Parameter aus der Adresse
+  // (z. B. ?utm_source=linkedin&utm_campaign=healthcheck) und der Hostname der verweisenden Seite.
+  // Wird pro Tab in sessionStorage gemerkt, damit ein Neuladen die Herkunft nicht verliert.
+  var META = (function () {
+    var key = "hc_meta", m = { utm_source: "", utm_medium: "", utm_campaign: "", referrer: "" };
+    try { var saved = sessionStorage.getItem(key); if (saved) return JSON.parse(saved); } catch (e) {}
+    try {
+      var p = new URLSearchParams(location.search);
+      m.utm_source = p.get("utm_source") || ""; m.utm_medium = p.get("utm_medium") || ""; m.utm_campaign = p.get("utm_campaign") || "";
+      if (document.referrer) { var h = new URL(document.referrer).hostname; if (h !== location.hostname) m.referrer = h; }
+    } catch (e) {}
+    try { sessionStorage.setItem(key, JSON.stringify(m)); } catch (e) {}
+    return m;
+  })();
+
   // Vertiefende Fragen (Stufe 2), je eine pro Bereich in derselben Reihenfolge wie AREAS
   var DEEP = [
     { q: "Wie viele Ihrer Quellsysteme sind automatisch angebunden?", a: ["Keines.", "Weniger als die Hälfte.", "Die meisten.", "Alle."] },
@@ -445,7 +460,7 @@
       ctx = { email: v, name: name.value.trim(), branche: branche.value, groesse: groesse.value, systeme: systeme, entscheider: entscheider.value, zeitrahmen: zeitrahmen.value, budget: budget.value, freitext: text.value.trim() };
       var scores = {};
       AREAS.forEach(function (a, i) { scores[a.id] = [answers[i], deep[i]]; });
-      var payload = { v: 1, consent: true, website: hp.value, scores: scores, ctx: ctx };
+      var payload = { v: 1, consent: true, website: hp.value, scores: scores, ctx: ctx, meta: META };
       send.disabled = true; send.textContent = "Wird gesendet";
       var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
       var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);

@@ -1,6 +1,7 @@
-import { validate, buildMail } from "./validate.js";
+import { validate, buildMail, evaluate } from "./validate.js";
 import { buildCustomerMail } from "./customer.js";
 import { sendViaCloudflare, sendToCustomer } from "./send.js";
+import { cleanMeta, buildRow, storeSubmission } from "./store.js";
 
 // Einfache Mengenbegrenzung pro Worker-Instanz (best effort, nur im Arbeitsspeicher):
 // maximal 5 Anfragen pro IP in 10 Minuten. IP-Adressen werden nicht gespeichert, nur gezaehlt.
@@ -32,7 +33,7 @@ function json(body, status, headers) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const allowed = (env.ALLOWED_ORIGINS || "").split(",").map((s) => s.trim()).filter(Boolean);
     const origin = request.headers.get("Origin");
     const cors = corsHeaders(origin, allowed);
@@ -55,6 +56,20 @@ export default {
     if (!result.ok) return json(result, 400, cors);
     if (result.spam) return json({ ok: true }, 200, cors); // Bot bekommt keine Rueckmeldung
 
+    // Anonyme Statistik in D1 (nur wenn das Binding LEAD_DB eingerichtet ist).
+    // Ein Fehler beim Speichern darf die Anfrage nie scheitern lassen, daher nur protokollieren.
+    // ctx.waitUntil: Der Besucher bekommt seine Antwort sofort, gespeichert wird danach.
+    const ev = evaluate(result.data.scores);
+    const meta = cleanMeta(payload.meta);
+    console.log("Health Check eingegangen", { level: ev.level, total: ev.total, utm_source: meta.utm_source, referrer: meta.referrer });
+    const record = (mailOk) => {
+      if (!env.LEAD_DB) return;
+      const p = storeSubmission(env.LEAD_DB, buildRow(result.data, ev, meta, mailOk))
+        .catch((e) => console.error("Speichern in D1 fehlgeschlagen:", e && e.message));
+      if (ctx && ctx.waitUntil) ctx.waitUntil(p);
+      else return p; // ohne ctx (Tests): direkt abwarten
+    };
+
     const mail = buildMail(result.data);
     try {
       // env.sendMail nur fuer Tests: dort ersetzt eine Attrappe den echten Versand
@@ -69,8 +84,11 @@ export default {
       });
     } catch (e) {
       console.error("Mailversand fehlgeschlagen:", e && e.code, e && e.message);
+      await record(false);
       return json({ ok: false, error: "Versand fehlgeschlagen." }, 502, cors);
     }
+
+    await record(true);
 
     // Bestaetigung an den Besucher: bewusst "best effort". Scheitert sie, ist die Anfrage trotzdem angekommen.
     if (env.CUSTOMER_MAIL === "on") {

@@ -56,6 +56,32 @@ Der Besucher bekommt nach dem Absenden eine Mail mit seinem Ergebnis. Das brauch
 
 Schalter: `CUSTOMER_MAIL` in `wrangler.toml` (`"on"` oder `"off"`). Scheitert die Kundenmail, bekommt der Besucher trotzdem sein Ergebnis und du deine Mail. Der Fehler steht dann in den Worker-Logs.
 
+## Statistik in D1
+
+Pro Absendung speichert der Worker eine **anonyme** Zeile in der D1-Datenbank `tofia-leads` (Binding `LEAD_DB`):
+Punkte, Stufe, Bereiche, Branche, Größe, Systeme, Entscheider, Zeitrahmen, Budget, Herkunft (UTM-Parameter, verweisende Website) und ob die Mail rausging.
+E-Mail, Vorname, Freitext und IP-Adresse werden **nicht** gespeichert. Fehlt das Binding, läuft alles wie vorher, nur ohne Statistik.
+
+### Einrichten (einmalig, im Ordner `worker`)
+```
+npx wrangler@latest d1 create tofia-leads
+```
+Die ausgegebene `database_id` in `wrangler.toml` bei `HIER_DIE_ID_EINTRAGEN` einsetzen. Dann:
+```
+npx wrangler@latest d1 execute tofia-leads --remote --file=schema.sql
+npx wrangler@latest deploy
+```
+
+### Herkunft mitgeben
+Links auf den Health Check mit UTM-Parametern versehen, zum Beispiel in LinkedIn-Posts:
+`https://tofia-analytics.com/health-check.html?utm_source=linkedin&utm_medium=social&utm_campaign=post-2026-11-27`
+
+### Auswerten
+```
+npx wrangler@latest d1 execute tofia-leads --remote --command "SELECT date(created_at) AS tag, utm_source, COUNT(*) AS anzahl, ROUND(AVG(total),1) AS schnitt FROM submissions GROUP BY 1, 2 ORDER BY 1 DESC"
+```
+Oder im Dashboard unter **Storage & Databases > D1 > tofia-leads > Console**.
+
 ## Fehlersuche
 | Symptom | Ursache |
 |---|---|
